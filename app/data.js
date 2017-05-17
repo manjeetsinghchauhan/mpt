@@ -1,8 +1,8 @@
 app.factory("Data", ['$http', 'toaster', '$location', 'ModalService',
     function ($http, toaster, $location, ModalService) {
 
-        //var serviceBase = 'http://192.168.64.121:9090/mp/';
-	    var serviceBase = 'http://10.193.66.132:9090/mp/';
+        
+	    var serviceBase = 'Server URL or IP';
         
         var obj = {};
 
