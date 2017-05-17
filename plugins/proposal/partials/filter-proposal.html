@@ -1,0 +1,40 @@
+	<aside class="proposal-filter">
+	<header>
+		Apply Filters
+	</header>
+	<section>
+		<div class="other-filters">
+			<!-- <label>By Ad Unit</label>
+			<select ng-model="adUnitFilterOption" ng-options="adUnitFilterOption as adUnitFilterOption.label for adUnitFilterOption in adUnitFilterOptions">
+					<option value='' >-- select --</option>
+			</select>
+			<label>By Content Targeting</label>
+			<select ng-model="contentTargetingFilterOption"	ng-options="contentTargetingFilterOption as contentTargetingFilterOption.label for contentTargetingFilterOption in contentTargetingFilterOptions">
+					<option value='' >-- select --</option>
+			</select>
+			<label>By Sales Category</label>
+			<select ng-model="salesCategoryFilterOption" ng-options="salesCategoryFilterOption as salesCategoryFilterOption.label for salesCategoryFilterOption in salesCategoryFilterOptions">		
+				<option value='' >-- select --</option>
+			</select> -->
+			<label>{{property.byStatus}}</label>
+			<select name="statusFilterOption" ng-model="statusFilterOption" ng-options="statusFilterOption as statusFilterOption.label for statusFilterOption in statusFilterOptions">
+					<option value='' >-- select --</option>
+			</select>
+			<label>{{property.byStartDate}}</label>
+			<!-- <input type="text" id="datepicker1" placeholder="mm/dd/yy"> -->
+			<p>
+				<input type="text" name="startDateFilter" id="startDateFilter" data-ng-model="startDateFilter" placeholder="mm/dd/yy" />
+            	<!-- <button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'startDateFilter')"></button> -->
+            </p>
+            <label>{{property.byEndDate}}</label>
+			<p>
+				<input type="text" name="endDateFilter" id="endDateFilter" ng-model="endDateFilter" placeholder="mm/dd/yy"/>
+            	<!-- <button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'endDateFilter')"></button> -->
+			</p>
+		</div>
+		<div class="button-group">
+			<input type="button" ng-click="applyFilter()" class="button apply" value="Apply"/>
+			<input type="button"  ng-click="resetFilter()"  class="button reset" value="Reset"/>
+		</div>
+	</section>
+</aside>

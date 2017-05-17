@@ -1,0 +1,167 @@
+<div class="summary-section" ng-controller="createUpdateCompainsCtrl">
+	<div style="width: 86%; margin: 0 auto;">
+		<!-- <header>
+			<span style="float: left;" ng-if="proposalName"><a class="breadcrumb-text">{{property.updateProposalHeading}}</a><span class="breadcrumb-arrow">></span><a class="breadcrumb-text">{{proposalName}}</a></span>
+			<span style="float: left;" ng-if="!proposalName"><a class="breadcrumb-text">{{property.createProposalHeading}}</a></span>
+		</header> -->
+	</div>
+	<form name="createUpdateProposalorm" novalidate>
+		<div style="width: 100%;">
+			<div style="width: 49%; float: left;">
+				<section style="width: 100%;" class="form-group " show-errors>
+					<label>{{property.proposalName}}<span class="mandatory">*</span></label>
+					<input type="text" name="proposalName" data-ng-model="proposalName" id="proposalName" required />
+					<p class="help-block" ng-if="createUpdateProposalorm.proposalName.$error.required && checkErrors">
+						{{propertyMessage.proposalNameRequiredMsg}}
+					</p>
+				</section>
+
+				<section style="width: 100%;" class="form-group " show-errors='{showSuccess: true}'>
+					<label>{{property.createAdvertiserName}}<span class="mandatory">*</span></label> 
+					<input type="text" name="advertiserName" data-ng-model="advertiserName" id="advertiserName" required />
+					<p class="help-block" ng-if="createUpdateProposalorm.advertiserName.$error.required && checkErrors">
+						{{propertyMessage.advertiserNameRequiredMsg}}
+					</p>
+				</section>
+
+				<section style="width: 100%;" class="form-group " show-errors='{showSuccess: true}'>
+					<label>{{property.agencyMargin}}</label> 
+					<input type="number" name="agencyMargin" data-ng-model="agencyMargin" min="0" id="agencyMargin" />
+					<p class="help-block" ng-if="createUpdateProposalorm.agencyMargin.$error.number && checkErrors">
+						{{propertyMessage.agencyMarginRequiredMsg}}
+					</p>
+					<p class="help-block" ng-if="createUpdateProposalorm.agencyMargin.$error.min && checkErrors">
+						{{propertyMessage.agencyMarginShouldNotZeroMsg}}
+					</p>
+				</section>
+				
+				<section style="width: 100%;" class="form-group show-errors" show-errors>
+					<label>{{property.createStartDate}}<span class="mandatory">*</span></label> 
+					<input type="text" name="startDate" id="startDate" data-ng-model="startDate" readonly="readonly" required />
+					<p class="help-block" ng-if="createUpdateProposalorm.startDate.$error.required && checkErrors">
+						{{propertyMessage.startDateRequiredMsg}}
+					</p>
+					<!--<button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'startDate')" style="margin-top: 1.0%;border: none;">
+					</button>-->
+					<p class="help-block" ng-if="startDate > endDate && checkErrors">
+						{{propertyMessage.startDateRangeMsg}}
+					</p>
+				</section>
+				
+				<section style="width: 100%;"  class="form-group " show-errors>
+					<label>{{property.reuestedOn}}<span class="mandatory">*</span></label>
+					 <input type="text" name="requestedOn" id="requestedOn" data-ng-model="requestedOn"	readonly="readonly" required />
+					<!--<button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'requestedOn')" style="margin-top: 1.0%;border: none;">
+					</button>-->
+					<p class="help-block" ng-if="createUpdateProposalorm.requestedOn.$error.required && checkErrors">
+						{{propertyMessage.requestedDateRequiredMsg}}</p>
+					<p class="help-block" ng-if="requestedOn > startDate && checkErrors">
+						{{propertyMessage.requestedDateRangeMsg}}
+					</p>
+				</section>
+				
+				<section style="width: 100%;">
+					<label>{{property.createSalesCategory}}</label> 
+					<select ng-model="salesCategory" ng-options="salesCategoryVal.label as salesCategoryVal.label for salesCategoryVal in salesCategoryList">
+					</select>
+				</section>
+				
+				<section style="width: 100%;">
+					<label>{{property.grossOrNet}}</label> 
+					<select name="grossorNet" data-ng-model="grossorNet" id="grossorNet">
+						<option>Gross</option>
+						<option>Net</option>
+					</select>
+				</section>
+				<section style="width: 100%;">
+					<label>{{property.priority}}</label> 
+					<select name="priority" data-ng-model="priority" id="priority">
+						<option>Regular</option>
+						<option>Urgent</option>
+					</select>
+				</section>
+				<section style="width: 100%;">
+					<label>{{property.addProposalNote}}</label>
+					<textarea rows="1" data-ng-model="custom1" id="custom1" name="custom1"></textarea>
+				</section>
+			</div>
+			<div style="width: 49%; float: right;">
+				<section style="width: 100%;">
+					<label>{{property.campaignName}}</label> 
+					<input type="text" name="compaignName" data-ng-model="compaignName" id="compaignName" />
+				</section>
+				
+				<section style="width: 100%;">
+					<label>{{property.accountManager}}</label> 
+					<select ng-model="accountManager" ng-options="accountManagerVal.label as accountManagerVal.label for accountManagerVal in accountManagerList">
+					</select>
+				</section>
+				
+				<section style="width: 100%;" class="form-group " show-errors='{showSuccess: true}'>
+					<label>{{property.agencyName}}<span class="mandatory">*</span></label> 
+					<input type="text" name="agencyName" data-ng-model="agencyName" id="agencyName" required />
+					<p class="help-block" ng-if="createUpdateProposalorm.agencyName.$error.required && checkErrors">
+						{{propertyMessage.agencyNameRequiredMsg}}
+					</p>
+				</section>
+				
+				<section style="width: 100%;" class="form-group " show-errors='{showSuccess: true}'>
+					<label>{{property.createEndDate}}<span class="mandatory">*</span></label> 
+					<input type="text" name="endDate" id="endDate" data-ng-model="endDate" readonly="readonly" required />
+					<!--<button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'endDate')" style="margin-top: 1.0%;border: none;">
+					</button>-->
+					<p class="help-block" ng-if="createUpdateProposalorm.endDate.$error.required && checkErrors">
+						{{propertyMessage.endDateRequiredMsg}}
+					</p>
+				</section>
+				
+				<section style="width: 100%;">
+					<label>{{property.dueOn}}</label>
+					<input type="text" name="dueOn" id="dueOn" data-ng-model="dueOn" readonly="readonly" />
+					<!--<button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openCalendar($event, 'dueOn')" style="margin-top: 1.0%;border: none;">
+					</button>-->
+				</section>
+
+				<section style="width: 100%;">
+					<label>{{property.proposalCurrency}}</label>
+					<select ng-model="proposalCurrency" ng-options="proposalCurrencyVal.label as proposalCurrencyVal.label for proposalCurrencyVal in proposalCurrencyList">
+					</select>
+				</section>
+				
+				<section style="width: 100%;" class="form-group " show-errors='{showSuccess: true}'>
+					<label>{{property.createBudget}}</label> 
+					<input type="number" name="budget" data-ng-model="budget" id="budget" min="0" step="any" />
+					<p class="help-block" ng-if="createUpdateProposalorm.budget.$error.number && checkErrors">
+						{{propertyMessage.budgetShouldNumericMsg}}
+					</p>
+					<p class="help-block" ng-if="createUpdateProposalorm.budget.$error.min && checkErrors">
+						{{propertyMessage.budgetCanNotZeroMsg}}
+					</p>
+				</section>
+				
+				<section style="width: 100%;" class="form-group " show-errors='{showSuccess: true}'>
+					<label>{{property.conversionRate}}</label> 
+					<input type="number" name="conversionRate" data-ng-model="conversionRate" min="0" id="conversionRate" />
+					<p class="help-block" ng-if="createUpdateProposalorm.conversionRate.$error.number && checkErrors">
+						{{propertyMessage.conversionRateNumericMsg}}
+					</p>
+					<p class="help-block" ng-if="createUpdateProposalorm.conversionRate.$error.min && checkErrors">
+						{{propertyMessage.conversionRateCanNotZeroMsg}}
+					</p>
+				</section>
+				
+			</div>
+		</div>
+		<div class="button-container">
+			<button type="button" ng-click="createProposal()" style="height: 32px; margin-right: 2.5%; margin-top: 0;" class="btn pull-right add-creative-button ng-binding">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				&nbsp;{{property.saveButton}}
+			</button>
+            <button type="button" ng-click="cancelProposal()" style="height: 32px; margin-right: 0.5%; margin-top: 0;" class="btn pull-right add-creative-button cancel-button ng-binding">
+                <span class="glyphicon glyphicon-remove"></span>
+                {{property.cancelButton}}
+            </button>
+		</div>
+	</form>
+</div>
+

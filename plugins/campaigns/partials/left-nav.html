@@ -1,0 +1,84 @@
+<div class="left-naviation-menu">
+<accordion> 
+	<accordion-group heading="Orders" is-open="status.isFirstOpen" is-disabled="false"> 
+		<a href="#/campaigns" ng-click="setOrderStatus('Signed')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>All Orders
+			</div>
+	   </a> 
+		<a href="#/campaigns" ng-click="setOrderStatus('MyOrders')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>My Orders
+			</div>
+	   </a> 
+	   <a href="#/campaigns" ng-click="setOrderStatus('Active')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Active
+			</div>
+	   </a> 
+	  <a href="#/campaigns" ng-click="setOrderStatus('Ready')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Ready
+			</div>
+	   </a> 
+	    <a href="#/campaigns" ng-click="setOrderStatus('Delivering')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Delivering
+			</div>
+	   </a>
+	    <a href="#/campaigns" ng-click="setOrderStatus('Completed')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Completed
+			</div>
+	   </a>
+</accordion-group> 
+	
+<accordion-group heading="Campaigns"> 
+		<a href="#/list-campaigns" ng-click="setCampainsStatus('Signed')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>All Campaigns
+			</div>
+	   </a> 
+		<a href="#/list-campaigns" ng-click="setCampainsStatus('MyOrders')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>My Campaigns
+			</div>
+	   </a> 
+	   <a href="#/list-campaigns" ng-click="setCampainsStatus('Active')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Active
+			</div>
+	   </a> 
+	  <a href="#/list-campaigns" ng-click="setCampainsStatus('Ready')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Ready
+			</div>
+	   </a> 
+	    <a href="#/list-campaigns" ng-click="setCampainsStatus('Delivering')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Delivering
+			</div>
+	   </a>
+	    <a href="#/list-campaigns" ng-click="setCampainsStatus('Completed')" style="text-decoration: none;">
+			<div class="panel-body-content">
+				<span class="glyphicon" style="margin-right: 13px; background-color: transparent;"></span>Completed
+			</div>
+	   </a> 
+</accordion-group> 
+<accordion-group is-open="status.open"> <accordion-heading>
+	Assets <!-- <i class="pull-right glyphicon"
+		ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i> -->
+	</accordion-heading> <a href="#" style="text-decoration: none;">
+		<div class="panel-body-content">
+			<span class="glyphicon"
+				style="margin-right: 13px; background-color: transparent;"></span>New
+		</div>
+	</a> <a href="#" style="text-decoration: none;">
+		<div class="panel-body-content">
+			<span class="glyphicon"
+				style="margin-right: 13px; background-color: transparent;"></span>Templates
+		</div>
+	</a> 
+</accordion-group> </accordion>
+	
+</div>

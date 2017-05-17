@@ -1,0 +1,20 @@
+html{
+	overflow: hidden;
+}
+legend.scheduler-border {
+    border-bottom: medium none;
+    color: white;
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    margin-top: 12px;
+    padding: 0 15px;
+    text-align: left !important;
+    width: auto;
+}
+.widget-main {
+    margin-left: 3px;
+    margin-top: 21px;
+}
+.tool-label{font-size: 67px;font-weight: 100; color: white;}
+.tool-label:before{content: "";height: 0;width: 40%;display: block;box-shadow: 0 0 80px 5px #fff;position: relative;z-index: 2;-webkit-transition: top 900ms linear 0s;-moz-transition: top 900ms linear 0s;-ms-transition: top 900ms linear 0s;transition: top 900ms linear 0s;top:54px;opacity:0}
+.tool-label::before:hover{top:10px}

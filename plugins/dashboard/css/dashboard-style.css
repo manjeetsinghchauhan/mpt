@@ -1,0 +1,10 @@
+.left-naviation-menu ul { background-color: #e6e6e6; height: 680px; }
+.left-naviation-menu ul li { border-bottom: 1px solid #ccc; margin: 0; border-left: 5px solid #00BAFF; }
+.left-naviation-menu ul li a:hover { background: #BBD0E2; }
+.left-naviation-menu ul li.subMenuActive > a { border-left: 8px solid #00BAFF; }
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background-color: #f89727; background-image: url("../images/nav-arrow.png"); background-position: right; background-repeat: no-repeat; color: black; }
+.nav-pills > li > a { border-radius: 0; }
+.left-naviation-menu ul li a { border-left: 8px solid #e6e6e6; margin-left: 8px; font-weight: 400 !important; font-size: 14px; color: black !important; }
+.left-naviation-menu ul li a span { margin-right: 13px; background-color: transparent; }
+
+.subMenuActive { background-color: white !important; border-left: 5px solid #00BAFF; }

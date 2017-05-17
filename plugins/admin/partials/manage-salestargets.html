@@ -1,0 +1,154 @@
+<div class="admin-div">
+	<div ng-include="'plugins/admin/partials/admin-nav.html'"></div>
+	<div class="col-lg-10 main-container">
+		<div class="row">
+			<h4 class="text-left">{{property.manageSalesTargets}}</h4>
+		</div>
+
+		<div class="row attribute-header">
+			<div class="col-lg-1 col-sm-12 col-md-2 filter-div">
+				<span>{{property.filter}}</span>
+			</div>
+			<div class="col-lg-3 col-sm-12 col-md-2">
+				<div class="input-group input-group">
+					<input type="text" class="form-control"
+						placeholder="Filter attribute list ..." ng-model="filterAttribute"
+						ng-change="resetLimit();"> <span class="input-group-addon"><span
+						class="glyphicon glyphicon-search"></span></span>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-md-8"></div>
+			<div class="col-lg-2 col-sm-12 col-md-6">
+				<button class="btn pull-right add-creative-button"
+					ng-click="addAttribute()">
+					<span class="glyphicon glyphicon-plus-sign"></span>
+					{{property.addSalesTargetsButton}}
+				</button>
+			</div>
+		</div>
+
+		<div class=" row table-responsive">
+			<table
+				class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+				<thead>
+					<tr>
+						<th class="width-20p" ng-click="sort_by('name');"><strong>{{property.salesTargetsName}}</strong>&nbsp;
+							<span class="sorter"><i class="glyphicon glyphicon-triangle-top"></i><i class="glyphicon glyphicon-triangle-bottom"></i></span></th>
+<!-- 						<th class="width-20p" ng-click="sort_by('url');">{{property.salesTargetsUrl}}&nbsp; -->
+<!-- 							<i class="glyphicon glyphicon-sort"></i></th> -->
+						<th class="width-50p" ng-click="sort_by('description');"><strong>{{property.salesTargetsDescription}}</strong>&nbsp;
+							<span class="sorter"><i class="glyphicon glyphicon-triangle-top"></i><i class="glyphicon glyphicon-triangle-bottom"></i></span></th>
+						<th class="width-10p">{{property.salesTargetsAction}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						ng-repeat="attribute in filteredItems = (attributes | filter: filterAttribute) | filter:{name: filterAttribute} | orderBy:predicate :reverse | startaAttributeFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"
+						animate-on-change='attribute.name + attribute.url + attribute.description'
+						ng-animate=" 'animate'">
+						<td title="{{attribute.name}}"><span
+							editable-text="attribute.name"  e-maxlength="50" e-name="name" e-form="rowform"
+							e-required> {{attribute.name}} </span></td>
+<!-- 						<td title="{{attribute.url}}"><span -->
+<!-- 							editable-text="attribute.url" e-name="url" e-form="rowform"> -->
+<!-- 								{{attribute.url}} </span></td> -->
+						<td title="{{attribute.description}}"><span
+							editable-textarea="attribute.description"  e-maxlength="200" e-name="description"
+							e-form="rowform"> {{attribute.description}} </span></td>
+						<!-- <td><button class="edit-btn">
+									<span class="glyphicon glyphicon-edit edit-btn"
+										aria-hidden="true"></span>
+								</button>
+								<button class="del-btn">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+								</button>
+							</td> -->
+						<td style="white-space: nowrap" align="center">
+							<!-- form -->
+							<form editable-form method="post" name="rowform"
+								onbeforesave="saveAttribute($data, attribute)"
+								ng-show="rowform.$visible" class="form-buttons form-inline"
+								shown="inserted == attribute">
+								<div class="buttons">
+									<button ng-disabled="rowform.$waiting" type="submit"
+										class="glyphicon glyphicon-ok"></button>
+									&nbsp;
+									<button class="glyphicon glyphicon-remove"
+										ng-disabled="rowform.$waiting"
+										ng-click="cancel(attribute,$index,rowform)"type="button"></button>
+								</div>
+							</form>
+							<div class="buttons" ng-show="!rowform.$visible">
+								<span class="glyphicon glyphicon-edit"
+									style="vertical-align: middle; cursor: pointer"
+									ng-click="getSalestargetFlag() ?  rowform.$show() : '';bindTextareaAuto()"></span>&nbsp;<span
+									class="glyphicon glyphicon-trash"
+									style="vertical-align: middle; cursor: pointer"
+									ng-click="removeAttribute(this,$index)"
+									ng-click="removeAttribute(this)"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tr ng-show="attributes.length==0">
+					<td style="vertical-align: middle;" colspan="3"><i
+						class="fa fa-ban fa-3x"></i>&nbsp;No data found</td>
+				</tr>
+				<tr ng-hide="attributes.length > -1">
+					<td style="vertical-align: middle;" colspan="3"><i
+						class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td>
+				</tr>
+			</table>
+
+		</div>
+		<div class="row" style="background-color: #e6e6e6; padding: 4px;">
+			<div pagination="" page="currentPage" max-size="5"
+				on-select-page="setPage(page)" boundary-links="true"
+				total-items="filteredItems.length" items-per-page="entryLimit"
+				class="pagination pagination-sm col-lg-12"
+				style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;"
+				next-text="&raquo;"></div>
+		</div>
+		<div ng-include="'plugins/admin/partials/modal.html'"></div>
+		<div ng-include="'plugins/admin/partials/editModal.html'"></div>
+		<!-- 
+	<script type="text/ng-template" id="salesTargetsDeleteWarnigModal.html">
+	         <div class="modal fade">
+	          <div class="modal-dialog">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title">Warning</h4>
+	              </div>
+	              <div class="modal-body">
+	                  <p>{{warnigMsg}}</p>
+	              </div>
+	              <div class="modal-footer">
+	                <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
+	                <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	    	</script>
+				<script type="text/ng-template" id="salesTargetsWarnigModal.html">
+	         <div class="modal fade">
+	          <div class="modal-dialog">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title">Warning</h4>
+	              </div>
+	              <div class="modal-body">
+	                  <p>Required fields are missing</p>
+	              </div>
+	              <div class="modal-footer">
+	                  <button type="button" ng-click="close('editModal')" class="btn btn-primary" data-dismiss="modal">Yes</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	    	</script>
+	 -->
+	</div>
+</div>

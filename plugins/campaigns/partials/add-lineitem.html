@@ -1,0 +1,475 @@
+<section ng-controller="createUpdateCompainsLineItemCtrl as tab"
+	class="proposal-line-item">
+	<ul class="nav nav-pills pseudo-tabs" style="padding-left: 143px;">
+		<li ng-class="{ active:tab.isSet(1) }"><a href
+			ng-click="tab.setTab(1)">Settings</a></li>
+		<li ng-class="{ active:tab.isSet(2) }"><a href
+			ng-click="tab.setTab(2)">Assets</a></li>
+	</ul>
+	<div ng-show="tab.isSet(1)">
+	
+	
+	
+	<form name="lineItemForm" method="post" novalidate>
+    <div class="summary-section add-line-items basic-detail-section">
+        <header>
+            <a class="breadcrumb-text">
+                {{property.addLineItemsHeading}}
+            </a>
+        </header>
+        <div class="line-item-fields">
+            <aside class="pull-left">
+                <section class="form-group " show-errors>
+                    <label>{{property.addLineItemProduct}}</label> <select ng-model="newLineItem.product"
+                                                                           ng-change="getSalestargets();getBasePrice()" required name="productName">
+                        <option ng-selected="{{productVal.id == newLineItem.selectedProductVal}}"
+                                ng-repeat="productVal in productList" value="{{productVal.id}}">
+                            {{productVal.name}}
+                        </option>
+                    </select>
+                    <p class="help-block" ng-if="lineItemForm.productName.$error.required && checkErrors">
+                        The Product name is required
+                    </p>
+                </section>
+                <section>
+                    <label>{{property.addLineItemRateCardPrice}}</label> <input type="number"
+                                                                                data-ng-model="newLineItem.basePrice" id="basePrice" required
+                                                                                readonly="readonly" />
+                </section>
+                <section class="form-group " show-errors>
+                    <label>{{property.addLineItemStartDate}}</label> <input type="text" name="startDate" max=newLineItem.endDate
+                                                                            id="lineItemStartDate" data-ng-model="newLineItem.startDate"
+                                                                            readonly="readonly" />
+                    <!-- <button type="button"
+                        class="btn btn-default glyphicon glyphicon-calendar"
+                        ng-click="openCalendar($event, 'startDate')">
+
+                    </button> -->
+                    <p style="color: #a94442;" class="help-block" ng-if="showDateError">{{property.lineItemstartDateRangeMsg}}</p>
+                </section>
+                <section>
+                    <label>{{property.addLineItemPriceType}}</label> <select ng-model="newLineItem.paymentModel">
+                        <option ng-repeat="paymentModelVal in priceTypeOptions"
+                                value="{{paymentModelVal.label}}">
+                            {{paymentModelVal.label}}
+                        </option>
+                    </select>
+                </section>
+                <section class="form-group " show-errors>
+                    <label>{{property.addLineItemOfferedImpressions}}</label> <input type="number" min="0"
+                                                                                     name="offeredQuantity" data-ng-model="newLineItem.offeredQuantity"
+                                                                                     id="offeredQuantity" required />
+                    <p class="help-block" ng-if="lineItemForm.offeredQuantity.$error.required && checkErrors">
+                        The Offered Impressions is required
+                    </p>
+                    <!--  <p class="help-block" ng-if="newLineItem.basePrice > newLineItem.offeredQuantity && checkErrors">
+                        The Offered Price can not be less than Base Price
+                    </p>-->
+                    <p class="help-block" ng-if="lineItemForm.offeredQuantity.$error.min && checkErrors">
+                        The Offered Impressions can not be less than Zero(0)
+                    </p>
+                </section>
+                <section>
+                    <label>{{property.addLineItemNote}}</label>
+                    <div>
+                        <textarea rows="1" data-ng-model="newLineItem.custom4" id="custom4" name="custom4"></textarea>
+                    </div>
+                </section>
+            </aside>
+            <aside class="pull-right">
+                <section class="salesTargetDiv">
+                    <label>{{property.addLineItemSalesTarget}}</label>
+                    <div multi-select input-model="salesTargetList" tick-property="ticked" output-properties="name ticked" max-labels="1" button-label="name" item-label="name" output-model="selectedSalesTarget" tick-property="ticked" id="advertiserError" disable-property=false></div>
+                </section>
+                <section>
+                    <label>{{property.addLineItemSpecType}}</label>
+                    <!-- <select ng-model="newLineItem.specTypeOption"
+                        ng-options="specTypeOption as specTypeOption.label for specTypeOption in specTypeOptions">
+                    </select> -->
+
+                    <select ng-model="newLineItem.specTypeOption">
+                        <option ng-repeat="specTypeOption in specTypeOptions"
+                                value="{{specTypeOption.label}}">
+                            {{specTypeOption.label}}
+                        </option>
+                    </select>
+                </section>
+                <section>
+                    <label>{{property.addLineItemEndDate}}</label> <input type="text" name="endDate"
+                                                                          id="lineItemEndDate" ng-model="newLineItem.endDate"
+                                                                          readonly="readonly" />
+                    <!-- <button type="button"
+                        class="btn btn-default glyphicon glyphicon-calendar"
+                        ng-click="openCalendar($event, 'endDate')">
+                        <i class="fa fa-calendar"></i>
+                    </button> -->
+                    <p class="help-block" ng-if="newLineItem.endDate > newLineItem.startDate && checkErrors">{{propertyMessage.lineItemstartDateRangeMsg}}</p>
+                </section>
+                <section class="form-group " show-errors>
+                    <label>{{property.addLineItemOfferedPrice}}</label> <input type="number" name="price"
+                                                                               min="{{newLineItem.basePrice}}" data-ng-model="newLineItem.price" min="0"
+                                                                               id="price" />
+                    <p class="help-block" ng-if="lineItemForm.price.$error.min && checkErrors">
+                        The Offered Price can not be less than Zero(0)
+                    </p>
+                    <p class="help-block" style=" color: #a94442;" ng-if="newLineItem.basePrice > newLineItem.price && checkErrors">
+                        The Offered Price can not be less than Base Price
+                    </p>
+                    <p class="help-block" ng-if="lineItemForm.price.$error.number && checkErrors">
+                        The Offered Price should be Numeric
+                    </p>
+                </section>
+                <section>
+                    <label>{{property.addLineItemInvestment}}</label><div ng-if="newLineItem.offeredQuantity>0 && newLineItem.price>0">
+                        <input type="text" name="investment"
+                               readonly="readonly"
+                               value="{{(((newLineItem.offeredQuantity)*(newLineItem.price))/1000)}}"
+                               id="investment" />
+                    </div>
+                    <div ng-if="! newLineItem.offeredQuantity || !newLineItem.price">
+                        <input type="text" name="investment"
+                               readonly="readonly"
+                               id="investment" />
+                    </div>
+                </section>
+                <section>
+                    <label>{{property.addLineItemAvails}}</label> <input type="text" name="custom2"
+                                                                         data-ng-model="newLineItem.custom2" id="custom2" />
+                </section>
+            </aside>
+        </div>
+
+        <div class="campaigns-list">
+            <div class="campaigns ng-scope form-group">
+                <p class="help-block" ng-if="targetListElements.length<1 && checkErrors" style="  color: #a94442;">
+                    The Sales Targets is required
+                </p>
+                <section>
+                    <div class="inlineitem-margin">
+                        <label style="width: 20%;">{{property.addLineItemTargetType}}</label> <select ng-model="targetTypeOption" style="width: 60%;"
+                                                                                                      ng-change="getElements()"
+                                                                                                      ng-options="targetTypeOption as targetTypeOption.name for targetTypeOption in targetTypeOptions"></select>
+                    </div>
+                    <div style="width: 100%;">
+                        <div class="inlineitem-margin" ng-hide="targetTypeOption.name=== 'Zip Code'">
+                            <label style="width: 20%;">{{property.addLineItemElements}}</label>
+                            <select ng-model="element" style="width: 60%; margin-right: 0px;"
+                                    ng-options="elementArrayValue as elementArrayValue.value for elementArrayValue in elementArray"></select>
+                            <button ng-click="addElement()"
+                                    style="margin-top: 0.3%;margin-left: 39px;height: 33px;" class="btn add-creative-button ng-binding" ng-disabled="targetTypeOption.name == undefined || element.value == undefined">
+                                <span style="background:none;border:none;margin: -9% !important;"
+                                      class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add
+                            </button>
+                        </div>
+                        <div class="inlineitem-margin" ng-show="targetTypeOption.name=== 'Zip Code'">
+                            <label style="width: 20%;"></label> <input type="text"
+                                                                       style="width: 60%;" ng-model="zipcode" />
+                            <button ng-click="addElement()"
+                                    style="margin-top: 0.3%;margin-left: 0px;height: 33px;"
+                                    class="btn add-creative-button ng-binding" ng-disabled="targetTypeOption.name == undefined || zipcode == undefined">
+                                <span style="background:none;border:none;margin: -9% !important;" class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add
+                            </button>
+                        </div>
+                    </div>
+                    <div class="inlineitem-margin">
+                        <label style="width: 20%;">{{property.addLineItemTargetingString}}</label>
+                        <div class="target-string-data">
+                            <div ng-repeat="targetListElement in targetListElements"
+                                 style="width: 100%;">
+                                <div style="width: 97%; margin: 1.2%"
+                                     data-ng-model="targettingString" name="targettingString"
+                                     id="targettingString">
+                                    <span ng-hide="targetListElement.name.name==undefined">{{propertyMessage.lineItemTargettypeis}} {{targetListElement.name.name}}</span>
+                                    <span ng-hide="targetListElement.value.value==undefined || targetTypeOption.name=== 'Zip Code'">{{propertyMessage.lineItemElementis}} {{targetListElement.value.value}}</span>
+                                    <span ng-show="targetTypeOption.name=== 'Zip Code'">{{propertyMessage.lineItemElementis}} {{targetListElement.value.value}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <table class="table table-striped font-12 table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>{{property.addLineItemTargetTypeTh}}&nbsp;</th>
+                                <th>{{property.addLineItemElementsTh}}&nbsp;</th>
+                                <th>{{property.addLineItemActionTh}}&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="targetListElement in targetListElements">
+                                <td title="">{{targetListElement.name.name}}</td>
+                                <td title="">{{targetListElement.value.value}}</td>
+                                <td style="text-align: center">
+                                    <!-- <lable
+                                    class="glyphicon glyphicon-edit"
+                                    style="vertical-align: middle; cursor: pointer"
+                                    ng-click="editTargetListItem(targetListElement)"></lable>&nbsp; -->
+                                    <span class="glyphicon glyphicon-trash"
+                                          style="vertical-align: middle; cursor: pointer"
+                                          ng-click="deleteTargetListitem(targetListElement)"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+    <footer class="line-item-footer">
+        <button type="button" ng-click="cancelLineItem()" style="height: 32px;" class="btn add-creative-button cancel-button ng-binding"><span class="glyphicon glyphicon-remove"></span>&nbsp;{{property.addLineItemCancelButton}}</button>
+        <button type="submit" style="height: 32px;" class="btn add-creative-button ng-binding" ng-click="saveEdittedLineItem()"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;{{property.addLineItemSaveButton}}</button>
+    </footer>
+</form>
+	
+	
+		<!-- <div class="summary-section add-line-items basic-detail-section">
+			<form name="lineItemForm" method="post" novalidate>
+				<div class="basic-detail-section">
+					<header>
+						<a class="breadcrumb-text"> {{property.addLineItemsHeading}} </a>
+					</header>
+					<div class="line-item-fields">
+						<aside class="pull-left">
+							<section class="form-group " show-errors>
+								<label>{{property.addLineItemProduct}}</label> <select
+									ng-model="newLineItem.product"
+									ng-change="getSalestargets();getBasePrice()" required
+									name="productName">
+									<option
+										ng-selected="{{productVal.id == newLineItem.selectedProductVal}}"
+										ng-repeat="productVal in productList"
+										value="{{productVal.id}}">{{productVal.name}}</option>
+								</select>
+								<p class="help-block"
+									ng-if="lineItemForm.productName.$error.required && checkErrors">
+									The Product name is required</p>
+							</section>
+							<section>
+								<label>{{property.addLineItemRateCardPrice}}</label> <input
+									type="number" data-ng-model="newLineItem.basePrice"
+									id="basePrice" required readonly="readonly" />
+							</section>
+							<section class="form-group " show-errors>
+								<label>{{property.addLineItemStartDate}}</label> <input
+									type="text" name="startDate" max=newLineItem.endDate
+									id="lineItemStartDate" data-ng-model="newLineItem.startDate"
+									readonly="readonly" />
+								<button type="button"
+							class="btn btn-default glyphicon glyphicon-calendar"
+							ng-click="openCalendar($event, 'startDate')">
+							
+						</button>
+								<p style="color: #a94442;" class="help-block"
+									ng-if="showDateError">{{property.lineItemstartDateRangeMsg}}</p>
+							</section>
+							<section>
+								<label>{{property.addLineItemPriceType}}</label> <select
+									ng-model="newLineItem.paymentModel">
+									<option ng-repeat="paymentModelVal in priceTypeOptions"
+										value="{{paymentModelVal.label}}">{{paymentModelVal.label}}</option>
+								</select>
+							</section>
+							<section class="form-group " show-errors>
+								<label>{{property.addLineItemOfferedImpressions}}</label> <input
+									type="number" min="0" name="offeredQuantity"
+									data-ng-model="newLineItem.offeredQuantity"
+									id="offeredQuantity" required />
+								<p class="help-block"
+									ng-if="lineItemForm.offeredQuantity.$error.required && checkErrors">
+									The Offered Impressions is required</p>
+								 <p class="help-block" ng-if="newLineItem.basePrice > newLineItem.offeredQuantity && checkErrors">
+								The Offered Price can not be less than Base Price
+							</p>
+								<p class="help-block"
+									ng-if="lineItemForm.offeredQuantity.$error.min && checkErrors">
+									The Offered Impressions can not be less than Zero(0)</p>
+							</section>
+							<section>
+								<label>{{property.addLineItemNote}}</label>
+								<div>
+									<textarea rows="1" data-ng-model="newLineItem.custom4"
+										id="custom4" name="custom4"></textarea>
+								</div>
+							</section>
+						</aside>
+						<aside class="pull-right">
+							<section class="salesTargetDiv">
+								<label>{{property.addLineItemSalesTarget}}</label>
+								<div multi-select input-model="salesTargetList"
+									tick-property="ticked" output-properties="name ticked"
+									max-labels="1" button-label="name" item-label="name"
+									output-model="selectedSalesTarget" tick-property="ticked"
+									id="advertiserError" disable-property=false></div>
+							</section>
+							<section>
+								<label>{{property.addLineItemSpecType}}</label>
+								<select ng-model="newLineItem.specTypeOption"
+							ng-options="specTypeOption as specTypeOption.label for specTypeOption in specTypeOptions">
+						</select>
+
+								<select ng-model="newLineItem.specTypeOption">
+									<option ng-repeat="specTypeOption in specTypeOptions"
+										value="{{specTypeOption.label}}">{{specTypeOption.label}}</option>
+								</select>
+							</section>
+							<section>
+								<label>{{property.addLineItemEndDate}}</label> <input
+									type="text" name="endDate" id="lineItemEndDate"
+									ng-model="newLineItem.endDate" readonly="readonly" />
+								<button type="button"
+							class="btn btn-default glyphicon glyphicon-calendar"
+							ng-click="openCalendar($event, 'endDate')">
+							<i class="fa fa-calendar"></i>
+						</button>
+								<p class="help-block"
+									ng-if="newLineItem.endDate > newLineItem.startDate && checkErrors">{{propertyMessage.lineItemstartDateRangeMsg}}</p>
+							</section>
+							<section class="form-group " show-errors>
+								<label>{{property.addLineItemOfferedPrice}}</label> <input
+									type="number" name="price" min="{{newLineItem.basePrice}}"
+									data-ng-model="newLineItem.price" min="0" id="price" />
+								<p class="help-block"
+									ng-if="lineItemForm.price.$error.min && checkErrors">The
+									Offered Price can not be less than Zero(0)</p>
+								<p class="help-block" style="color: #a94442;"
+									ng-if="newLineItem.basePrice > newLineItem.price && checkErrors">
+									The Offered Price can not be less than Base Price</p>
+								<p class="help-block"
+									ng-if="lineItemForm.price.$error.number && checkErrors">
+									The Offered Price should be Numeric</p>
+							</section>
+							<section>
+								<label>{{property.addLineItemInvestment}}</label>
+								<div
+									ng-if="newLineItem.offeredQuantity>0 && newLineItem.price>0">
+									<input type="text" name="investment" readonly="readonly"
+										value="{{(((newLineItem.offeredQuantity)*(newLineItem.price))/1000)}}"
+										id="investment" />
+								</div>
+								<div ng-if="! newLineItem.offeredQuantity || !newLineItem.price">
+									<input type="text" name="investment" readonly="readonly"
+										id="investment" />
+								</div>
+							</section>
+							<section>
+								<label>{{property.addLineItemAvails}}</label> <input type="text"
+									name="custom2" data-ng-model="newLineItem.custom2" id="custom2" />
+							</section>
+						</aside>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="campaigns-list">
+					<div class="campaigns ng-scope form-group">
+						<p class="help-block"
+							ng-if="targetListElements.length<1 && checkErrors"
+							style="color: #a94442;">The Sales Targets is required</p>
+						<section>
+							<div class="inlineitem-margin">
+								<label style="width: 20%;">{{property.addLineItemTargetType}}</label>
+								<select ng-model="targetTypeOption" style="width: 60%;"
+									ng-change="getElements()"
+									ng-options="targetTypeOption as targetTypeOption.name for targetTypeOption in targetTypeOptions">
+								</select>
+							</div>
+							<div style="width: 100%;">
+								<div class="inlineitem-margin"
+									ng-hide="targetTypeOption.name=== 'Zip Code'">
+									<label style="width: 20%;">{{property.addLineItemElements}}</label>
+									<select ng-model="element"
+										style="width: 60%; margin-right: 0px;"
+										ng-options="elementArrayValue as elementArrayValue.value for elementArrayValue in elementArray">
+									</select>
+									<button ng-click="addElement()"
+										style="margin-top: 0; margin-left: 10px; height: 33px; float: left;"
+										class="btn add-creative-button ng-binding"
+										ng-disabled="targetTypeOption.name == undefined || element.value == undefined">
+										<span
+											style="background: none; border: none; margin: -9% !important;"
+											class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add
+									</button>
+								</div>
+								<div class="inlineitem-margin"
+									ng-show="targetTypeOption.name === 'Zip Code'">
+									<label style="width: 20%;">Zip Code</label> <input type="text"
+										style="width: 60%; margin: 0;" ng-model="zipcode" />
+									<button ng-click="addElement()"
+										style="margin-top: 0; margin-left: 10px; height: 33px; float: left;"
+										class="btn add-creative-button ng-binding"
+										ng-disabled="targetTypeOption.name == undefined || zipcode == undefined">
+										<span
+											style="background: none; border: none; margin: -9% !important;"
+											class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add
+									</button>
+								</div>
+							</div>
+							<div class="inlineitem-margin">
+								<label style="width: 20%;">{{property.addLineItemTargetingString}}</label>
+								<div class="target-string-data">
+									<div ng-repeat="targetListElement in targetListElements"
+										style="width: 100%;">
+										<div style="width: 97%; margin: 1.2%"
+											data-ng-model="targettingString" name="targettingString"
+											id="targettingString">
+											<span ng-hide="targetListElement.name.name==undefined">{{propertyMessage.lineItemTargettypeis}}
+												{{targetListElement.name.name}}</span> <span
+												ng-hide="targetListElement.value.value==undefined || targetTypeOption.name=== 'Zip Code'">{{propertyMessage.lineItemElementis}}
+												{{targetListElement.value.value}}</span> <span
+												ng-show="targetTypeOption.name=== 'Zip Code'">{{propertyMessage.lineItemElementis}}
+												{{targetListElement.value.value}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section>
+							<table
+								class="table table-striped font-12 table-bordered table-hover table-condensed">
+								<thead>
+									<tr>
+										<th>{{property.addLineItemTargetTypeTh}}&nbsp;</th>
+										<th>{{property.addLineItemElementsTh}}&nbsp;</th>
+										<th>{{property.addLineItemActionTh}}&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="targetListElement in targetListElements">
+										<td title="">{{targetListElement.name.name}}</td>
+										<td title="">{{targetListElement.value.value}}</td>
+										<td style="text-align: center">
+											<lable
+											class="glyphicon glyphicon-edit"
+											style="vertical-align: middle; cursor: pointer"
+											ng-click="editTargetListItem(targetListElement)"></lable>&nbsp;
+											<lable class="glyphicon glyphicon-trash"
+												style="vertical-align: middle; cursor: pointer"
+												ng-click="deleteTargetListitem(targetListElement)"></lable>
+										</td>
+									</tr>
+								</tbody>
+								</tr>
+							</table>
+						</section>
+					</div>
+				</div>
+				<footer>
+					<button type="button" ng-click="cancelLineItem()"
+						style="height: 32px;"
+						class="btn add-creative-button cancel-button ng-binding">
+						<span class="glyphicon glyphicon-remove"></span>&nbsp;{{property.addLineItemCancelButton}}
+					</button>
+					<button type="submit" style="height: 32px;"
+						class="btn add-creative-button ng-binding"
+						ng-click="saveEdittedLineItem()">
+						<span class="glyphicon glyphicon-plus-sign"></span>&nbsp;{{property.addLineItemSaveButton}}
+					</button>
+				</footer>
+			</form>
+		</div> -->
+	</div>
+	<div ng-show="tab.isSet(2)">
+		<assets-tab></assets-tab>
+    </div>
+</section>

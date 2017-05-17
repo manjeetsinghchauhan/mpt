@@ -1,0 +1,170 @@
+<section ng-controller="campaignsLineItemViewCtrl as tab" class="proposal-line-item">
+	<div ng-show="tab.isSet(1)">
+		<div class="summary-section basic-detail-section">
+				<header>
+					<h4 class="col-lg-4 col col-md-4">{{property.basicDetails}}</h4>
+					<div class="pull-right text-right">
+						<div class="btn-group">
+							<button type="button" class="btn pull-left add-creative-button" style="margin-right: 16px">
+								{{proposalData.status}}
+								<i class="caret"></i>
+							</button>
+							 
+						</div>
+					</div>
+					<!--  <span>Status:</span> -->
+
+					<!-- <span ng-click="nextStatus(proposalData.status);showActionOptions=!showActionOptions">{{proposalData.status}}</span> -->
+<!-- 					<span ng-show="showActionOptions" ng-repeat="st in statusList">
+						<section style="width: 99%;">
+							<p style=" border-radius: 4px;box-shadow: 0 0 1px 1px #ccc;" ng-click="changeStatus(proposalData.id, st.action);"></p>
+						</section>
+					</span> -->
+				</header>
+			<div>
+				<aside class="pull-left">
+					<section>
+						<label>{{property.proposalName}}</label> <span>{{proposalData.proposalName}}</span>
+					</section>
+					<section>
+						<label>{{property.createAdvertiserName}}</label> <span>{{proposalData.advertiserName}}</span>
+					</section>	
+					<section>
+						<label>{{property.createStartDate}}</label> <span>{{proposalData.startDate}}</span>
+					</section>
+					<section>
+						<label>{{property.reuestedOn}}</label> <span>{{proposalData.requestedOn}}</span>
+					</section>
+					<section>
+						<label>{{property.createSalesCategory}}</label> <span>{{proposalData.salesCategory}}</span>
+					</section>				
+					<section>
+						<label>{{property.priority}}</label> <span>{{proposalData.priority}}</span>
+					</section>
+				</aside>
+				<aside class="pull-right">
+					<section>
+						<label>{{property.campaignName}}</label> <span>{{proposalData.compaignName}}</span>
+					</section>
+					<section>
+						<label>{{property.accountManager}}</label> <span>{{proposalData.accountManager}}</span>
+					</section>
+					<section>
+						<label>{{property.createEndDate}}</label> <span>{{proposalData.endDate}}</span>
+					</section>
+					<section>
+						<label>{{property.dueOn}}</label> <span>{{proposalData.dueOn}}</span>
+					</section>
+					<section>
+						<label>{{property.createBudget}}</label> <span>{{proposalData.budget}}</span>
+					</section>
+				</aside>
+			</div>
+		</div>
+	</div>
+
+
+	<div ng-show="tab.isSet(2)">
+		<add-lineitem></add-lineitem>
+	</div>
+
+	<div ng-show="tab.isSet(1)">
+		<div class="basic-detail-section main-container summary-section">
+			<header>
+				<span style="float: left;">{{property.lineItems}}</span>
+			</header>
+
+			<div class="row lineItem-header"
+				style="margin-left: 0px; margin-right: 0px; width: 100%">
+				<div class="col-lg-1 col-sm-12 col-md-2 filter-div">
+					<span>Filter</span>
+				</div>
+				<div class="col-lg-3 col-sm-12 col-md-2">
+					<div class="input-group input-group">
+						<input baseprice="text" class="form-control"
+							placeholder="Filter lineItem list ..." ng-model="filterLineItems"
+							ng-change="resetLimit();"> <span
+							class="input-group-addon"> <span
+							class="glyphicon glyphicon-search"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-12 col-md-8"></div>
+				<div class="col-lg-2 col-sm-12 col-md-6"></div>
+			</div>
+
+			<div class="row table-responsive"
+				style="margin-left: 0px; margin-right: 0px; width: 100%">
+				<table
+					class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th ng-click="sort_by('productName');">{{property.productName}}&nbsp;<a>
+									<i class="glyphicon glyphicon-sort"></i>
+							</a>
+							</th>
+							<th ng-click="sort_by('price');">{{property.price}}&nbsp;<a> <i
+									class="glyphicon glyphicon-sort"></i>
+							</a>
+							</th>
+							<th ng-click="sort_by('basePrice');">{{property.basicPrice}}&nbsp;<a>
+									<i class="glyphicon glyphicon-sort"></i>
+							</a>
+							</th>
+							<th>{{property.offeredQuantity}}</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="lineItem in filteredItems = (lineItems | filter: filterLineItems) | filter:{basePrice:filterLineItems} | orderBy:predicate :reverse | startLineItemsFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"
+							ng-animate=" 'animate'">
+							<td title="{{lineItem.product.name}}"><span
+								editable-number="lineItem.product.name" e-name="productName"
+								e-form="lineform" e-required>{{lineItem.product.name}}</span></td>
+							<td title="{{lineItem.price}}"><span
+								editable-number="lineItem.price" e-name="price"
+								e-form="lineform" e-required>{{lineItem.price}}</span></td>
+							<td title="{{lineItem.basePrice}}"><span
+								editable-number="lineItem.basePrice" e-name="basePrice"
+								e-form="lineform" e-required>{{lineItem.basePrice}}</span></td>
+							<td title="{{lineItem.offeredQuantity}}"><span
+								editable-number="lineItem.offeredQuantity"
+								e-name="offeredQuantity" e-form="lineform">
+									{{lineItem.offeredQuantity}} </span></td>
+							
+						</tr>
+					</tbody>
+					<tr ng-show="lineItems.length==0">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-ban fa-3x"></i>&nbsp;{{propertyMessage.NoDataFoundMsg}}</td>
+					</tr>
+					<tr ng-hide="lineItems.length > -1">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-cog fa-3x fa-spin"></i>&nbsp;{{propertyMessage.loadingDataMsg}}</td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="row"
+				style="margin-left: 0px; margin-right: 0px; width: 100%; background-color: #e6e6e6;">
+				<div pagination="" page="currentPage" max-size="5"
+					on-select-page="setPage(page)" boundary-links="true"
+					total-items="filteredItems.length" items-per-page="entryLimit"
+					class="pagination pagination-sm col-lg-12"
+					style="margin-top: 1px; margin-bottom: 0px;"
+					previous-text="&laquo;" next-text="&raquo;"></div>
+
+			</div>
+			<div ng-include="'plugins/admin/partials/modal.html'"></div>
+			<div
+				ng-include="'plugins/proposal/partials/changeStatusWarning.html'"></div>
+			<div ng-include="'plugins/admin/partials/editModal.html'"></div>
+		</div>
+	</div>
+</section>
+
+
+
+
+

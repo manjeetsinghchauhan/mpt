@@ -1,0 +1,149 @@
+<style type="text/css">
+	.btn-file {
+		position: relative;
+		overflow: hidden;
+	}
+	.btn-file input[type=file] {
+		position: absolute;
+		top: 0;
+		right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		font-size: 100px;
+		text-align: right;
+		filter: alpha(opacity=0);
+		opacity: 0;
+		outline: none;
+		background: white;
+		cursor: inherit;
+		display: block;
+	}
+
+	.chooseImage {
+		display: none;
+	}
+
+	.table td {
+		padding: 8px;
+		line-height: 20px;
+		text-align: left;
+		vertical-align: middle;
+		border-top: 1px solid #ced2d9;
+	}
+	
+	.dropdown-menu {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 31px 1397px 0;
+  list-style: none;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  background-clip: padding-box;
+}
+
+.dropdown-menu>li>a {
+  display: block;
+  padding: 3px 49px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+.btn-group>.btn:first-child {
+  margin-left: 1397px;
+}
+</style>
+<html>
+		
+		<div class="basic-detail-section main-container summary-section">
+			<header>
+                <a class="breadcrumb-text">Creatives</a>
+               <div class="btn-group">
+				<button type="button" class="btn pull-left dropdown-toggle add-creative-button ng-binding" style="margin-top: 5px; margin-right: 16px"><span style="padding:0 10px 0 0;" class='glyphicon glyphicon-plus'>
+				</span>Add a Creative <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a href="javascript:void(0);" ng-click='open("lg","plugins/campaigns/partials/emtHtmlModalContent.html","");' style="cursor: pointer;">HTML</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);" ng-click='open("lg","plugins/campaigns/partials/emtImageModalContent.html","");' style="cursor: pointer;">Image</a>
+							</li>
+						</ul>
+				</div>
+            </header>
+			<div class="row lineItem-header"
+				style="margin-left: 0px; margin-right: 0px; width: 100%">
+				<div class="col-lg-1 col-sm-12 col-md-2 filter-div">
+					<span>Filter</span>
+				</div>
+				<div class="col-lg-3 col-sm-12 col-md-2">
+					<div class="input-group input-group">
+						<input baseprice="text" class="form-control"
+							placeholder="Filter line Item list ..." ng-model="filterLineItems"
+							ng-change="resetLimit();"> <span
+							class="input-group-addon"> <span
+							class="glyphicon glyphicon-search"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-12 col-md-8"></div>
+				<div class="col-lg-2 col-sm-12 col-md-6"></div>
+			</div>
+
+			<div class="row table-responsive"
+				style="margin-left: 0px; margin-right: 0px; width: 100%">
+				<table
+					class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th ng-click="sort_by('productName');">Name&nbsp;<a>
+									<i class="glyphicon glyphicon-sort"></i>
+							</a>
+							<th>Status</th>
+							<th>Type</th>
+							<th>Impressions/Clicks</th>
+							<th>CTR</th>
+						</tr>
+					</thead>
+					<tbody>
+						 
+					</tbody>
+					<tr ng-show="lineItems.length==0">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-ban fa-3x"></i>&nbsp;{{propertyMessage.NoDataFoundMsg}}</td>
+					</tr>
+					<tr ng-hide="lineItems.length > -1">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-cog fa-3x fa-spin"></i>&nbsp;{{propertyMessage.loadingDataMsg}}</td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="row"
+				style="margin-left: 0px; margin-right: 0px; width: 100%; background-color: #e6e6e6;">
+				<div pagination="" page="currentPage" max-size="5"
+					on-select-page="setPage(page)" boundary-links="true"
+					total-items="filteredItems.length" items-per-page="entryLimit"
+					class="pagination pagination-sm col-lg-12"
+					style="margin-top: 1px; margin-bottom: 0px;"
+					previous-text="&laquo;" next-text="&raquo;"></div>
+
+			</div>
+			<div ng-include="'plugins/admin/partials/modal.html'"></div>
+			<div
+				ng-include="'plugins/proposal/partials/changeStatusWarning.html'"></div>
+			<div ng-include="'plugins/admin/partials/editModal.html'"></div>
+		</div>
+ </html>

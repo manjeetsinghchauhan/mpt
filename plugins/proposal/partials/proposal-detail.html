@@ -1,0 +1,197 @@
+<div class="summary-section border" ng-controller="proposalCtrl">
+			<header><span>Add Proposal</span></header>
+			<form method="post" name="proposalform" shown="inserted == proposal">
+			<section>
+			<label>Advertiser Name:</label>
+			<input type="text" name="advertiserName" data-ng-model="advertiserName"  id="advertiserName"/>
+			</section>
+			
+			<section>
+			<label>New Advertiser Name:</label>
+			<input type="text" name="newAdvertiserName" data-ng-model="newAdvertiserName"  id="newAdvertiserName"/>
+			</section>
+			
+			<section>
+			<label>Campaign Name:</label>
+			<input type="text" name="compaignName"  data-ng-model="compaignName"  id="compaignName"/>
+			</section>
+			
+			<section>
+			<label>Assigned By:</label>
+			<input type="text" name="assignedBy" data-ng-model="assignedBy"  id="assignedBy"/>
+			</section>
+			
+			<section>
+			<label>Compaign Objective:</label>
+			<input type="text" name="compaignObjective" data-ng-model="compaignObjective"  id="compaignObjective"/>
+			</section>
+			
+			<section>
+			<label>Proposal Currency:</label>
+			<input type="text" name="proposalCurrency" data-ng-model="proposalCurrency"  id="proposalCurrency"/>
+			</section>
+			
+			<section>
+			<label>Agency Margin:</label>
+			<input type="text" name="agencyMargin" data-ng-model="agencyMargin"  id="agencyMargin"/>
+			</section>
+			
+			<section>
+			<label>Reservation Emails:</label>
+			<input type="text" name="reservationEmails" data-ng-model="reservationEmails"  id="reservationEmails"/>
+			</section>
+			
+			<section>
+			<label>Agency Name:</label>
+			<input type="text" name="agencyName" data-ng-model="agencyName"  id="agencyName"/>
+			</section>
+			
+			<section>
+				<label>Gross Or Net:</label>
+				<select name="grossorNet"  data-ng-model="grossorNet"  id="grossorNet">
+					<option>Gross</option>
+					<option>Net</option>
+				</select>
+			</section>
+			
+			<section>
+			<label>Proposal Name:</label>
+			<input type="text" name="proposalName"  data-ng-model="proposalName"  id="proposalName"/>
+			</section>
+			
+			<section>
+			<label>Priority:</label>
+			<select name="priority" data-ng-model="priority"  id="priority">
+			<option>Standard</option>
+			<option>House</option>
+			<option>Bulk</option>
+			<option>Network</option>
+			</select>
+			</section>
+			
+			<section>
+			<label>Account Manager:</label>
+			<input type="text" name="accountManager" data-ng-model="accountManager"  id="accountManager"/>
+			</section>
+			
+			<section>
+			<label>Cloned From:</label>
+			<input type="text" name="clonedFrom" data-ng-model="clonedFrom"  id="clonedFrom"/>
+			</section>
+			
+			<section>
+			<label>Conversion Rate:</label>
+			<input type="text" name="conversionRate" data-ng-model="conversionRate"  id="conversionRate"/>
+			</section>
+			
+			<section>
+			<label>Budget:</label>
+			<input type="text" name="budget" data-ng-model="budget"  id="budget"/>
+			</section>
+			
+			<section>
+			<label>Custom1:</label>
+			<input type="text" name="custom1" data-ng-model="custom1"  id="custom1"/>
+			</section>
+			
+			
+			<section>
+			<label>Custom2:</label>
+			<input type="text" name="custom2" data-ng-model="custom2"  id="custom2"/>
+			</section>
+			
+			
+			<section>
+			<label>Custom3:</label>
+			<input type="text" name="custom3" data-ng-model="custom3"  id="custom3"/>
+			</section>
+			
+			<section>
+			<label>Custom4:</label>
+			<input type="text" name="custom4" data-ng-model="custom4"  id="custom4"/>
+			</section>
+			
+			
+			
+			</form>
+			
+			<div class="align-center">
+			<button class="button apply" ng-click="addProposal()">Save Proposal</button>
+			<!-- <input type="submit" class="button apply" value="Save Proposal"/>-->
+   	</div>
+						
+ </div>	
+
+
+
+
+
+ <!-- <div class="summary-section border">
+			<header><span>Basic Information</span></header>
+			<section>
+			<label>Advertiser Name:</label>
+			<input type="text" value = "Tavant Technologies"/>
+			</section>
+			<section>
+			<label>Agency Name:</label>
+			<input type="text" value="Tavant Technolgies"/>
+			</section>
+			<section>
+			<label>Gross Or Net:</label>
+			<select>
+				<option>Gross</option>
+				<option>Net</option>
+			</select>
+			</section>
+			<section>
+			<label>Requested On:</label>
+			<input type="text" id ="due-date-picker" value = "1-1-2014"/>
+			</section>
+			<section>
+			<label>Due On:</label>
+			<input type="text" id="due-date-picker" value= "31-04-2014"/>
+			</section>
+			<section>
+			<label>Campaign Name:</label>
+			<input type="text" value="Test Campaign"/>
+			</section>
+			<section>
+			<label>Proposal Name:</label>
+			<input type="text" value="Books_TEST_Proposal" />
+			</section>
+			<section>
+			<label>Sales Category:</label>
+			<select name="sales-category">
+			<option>Fashion</option>
+			<option>Arts</option>
+			<option>Books</option>
+			<option>Auto Mobiles</option>
+			</select>
+			</section>
+			<section>
+			<label>Priority:</label>
+			<select name="priority">
+			<option>Standard</option>
+			<option>House</option>
+			<option>Bulk</option>
+			<option>Network</option>
+			</select>
+			</section>
+			<section>
+			<label>Start Date:</label>
+			<input type="text" id="start-date-picker" value= "02-02-2014"/>
+			</section>
+			<section>
+			<label>End Date:</label>
+			<input type="text" id="end-date-picker" value= "31-03-2014"/>
+			</section>
+			<section>
+			<label>Account Manager:</label>
+			<input type="text" value=" Test Account Manager" />
+			</section>
+			<div class="align-center">
+			<input type="submit" class="button apply" value="Save Proposal"/>
+   	</div>
+						
+ </div>	-->
+

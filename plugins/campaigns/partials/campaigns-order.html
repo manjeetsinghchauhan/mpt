@@ -1,0 +1,73 @@
+	<div class="campaigns-list">
+	<header style="padding: 4px;">
+		<label>{{property.sortBy}}</label>
+		<select ng-model="proposalSortBy" ng-change = "sortProposal()" 
+			ng-options="sortByOption as sortByOption.label for sortByOption in proposalSortByOptions">
+		</select>
+		<select ng-model="proposalOrderBy" ng-change = "sortProposal()"
+			ng-options="orderByOption as orderByOption.label for orderByOption in proposalOrderByOptions">
+		</select>
+		
+		<span class="reservations">
+			<input type="checkbox" ng-click="getMyProposals(this)" ng-model="fetchMyProposal"/>
+			<span>{{property.myProposals}}</span>
+		</span>
+		<!-- <div id="demo5" style="display:inline;float:right; width:50%;">                   
+			<a href="#/campaigns/create-proposal"  class="btn pull-right add-creative-button" style="margin-top: 0px;"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;{{property.createProposalButton}}</a>
+		</div>-->
+		
+		<!-- <div class="search btn btn-default">
+		<a href="#/proposal/create-proposal">{{property.createProposalButton}}</a>
+		</div> -->
+		
+		<!-- <div class="search">
+			
+			<input type="text" placeholder="1"/>
+			<input type="submit" class="go-button" value="Go"/>
+		</div> -->
+	</header>
+	<div class="" style="background-color: #e6e6e6; padding: 4px;">
+			<div pagination="" page="currentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems" items-per-page="entryLimit" 
+					class="pagination pagination-sm" style="margin-top: 1px; margin-bottom: 0;" 
+					previous-text="&laquo;" next-text="&raquo;">
+			</div>
+		</div>
+	<section>
+		<div class="campaigns" ng-repeat="proposal in newProposals">
+			<div class="column-30" ng-if=false><label>{{property.advertiser}}</label>{{proposal.id}}</div>
+			<header>
+				<div class="column-30">
+					<span class="ui-icon ui-icon-star"></span> 
+					<a href="{{proposal.linkPath}}">{{proposal.proposalName}}</a>
+				</div>
+				<div class="column-30"><label>{{property.status}}</label> {{proposal.status}}</div>
+				<div class="column-30"><label>{{property.createdBy}}</label> {{proposal.user.firstName}} {{proposal.user.lastName}}</div>
+			</header>
+			<section>
+				<div class="column-30"><label>{{property.advertiserName}}</label> {{proposal.advertiserName}}</div>
+				<div class="column-30"><label>{{property.startDate}}</label> {{proposal.startDate}}</div>
+				<div class="column-30"><label>{{property.endDate}}</label> {{proposal.endDate}}</div>
+				<div class="column-30"><label>{{property.salesCategory}}</label> {{proposal.salesCategory}}</div>
+				<div class="column-30"><label>{{property.accountManager}}</label> {{proposal.accountManager}}</div>
+				<div class="column-30"><label>{{property.ImpressionsOrClicks}}</label> 121212/454545 </div>
+			</section>
+			<footer class="clearfix">
+				<!-- <ul>
+					<li><a href=""><span class="ui-icon ui-icon-copy"></span></a></li>
+					<li><a href=""><span class="ui-icon ui-icon-trash"></span></a></li>
+				</ul> -->
+			</footer>
+		</div>
+		<div class="campaigns" ng-show="filteredItems==0">
+		<header>
+				<div class="column-30">No data found.</div>		
+		</header>
+		</div>
+		<div class="campaigns" ng-hide="filteredItems > -1">
+		<header>
+				<div class="column-30">Loading...</div>		
+		</header>
+		</div>
+		
+	</section>
+</div>

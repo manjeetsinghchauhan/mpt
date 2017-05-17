@@ -1,0 +1,86 @@
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="docs/styles/main.css">
+  <body ng-app="demo" ng-cloak>
+
+    <div class="container-fluid">
+
+      <div class="row" ng-controller="MainCtrl" id="demo">
+        <div class="col-md-8 col-md-offset-2">
+          <h2 class="text-center">{{ calendarTitle }}</h2>
+
+          <div class="row">
+
+            <div class="col-md-6 text-center">
+              <div class="btn-group">
+
+                <button
+                  class="btn btn-primary"
+                  mwl-date-modifier
+                  date="calendarDay"
+                  decrement="calendarView">
+                  Previous
+                </button>
+                <button
+                  class="btn btn-default"
+                  mwl-date-modifier
+                  date="calendarDay"
+                  set-to-today>
+                  Today
+                </button>
+                <button
+                  class="btn btn-primary"
+                  mwl-date-modifier
+                  date="calendarDay"
+                  increment="calendarView">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <mwl-calendar
+            events="events"
+            view="calendarView"
+            view-title="calendarTitle"
+            current-day="calendarDay"
+            on-event-click="eventClicked(calendarEvent)"
+            edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
+            delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+            on-edit-event-click="eventEdited(calendarEvent)"
+            on-delete-event-click="eventDeleted(calendarEvent)"
+			on-timespan-click="dayClicked(calendarDate)"
+            auto-open="true"
+            day-view-start="06:00"
+            day-view-end="22:00"
+            day-view-split="30">
+          </mwl-calendar>
+
+          
+        </div>
+      </div>
+
+    </div>
+
+    <script src="js/moment.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
+    <script src="src/module.js"></script>
+    <script src="src/directives/mwlCalendar.js"></script>
+    <script src="src/filters/calendarTruncateEventTitle.js"></script>
+    <script src="src/filters/calendarLimitTo.js"></script>
+    <script src="src/services/calendarConfig.js"></script>
+    <script src="src/services/calendarTitle.js"></script>
+    <script src="src/services/calendarHelper.js"></script>
+    <script src="src/services/calendarDebounce.js"></script>
+    <script src="src/services/moment.js"></script>
+    <!--<script src="src/directives/mwlCollapseFallback.js"></script>
+    <script src="src/directives/mwlDateModifier.js"></script>
+    <script src="src/directives/mwlCalendarYear.js"></script>
+    <script src="src/directives/mwlCalendarWeek.js"></script>
+    <script src="src/directives/mwlCalendarDay.js"></script>-->
+    <script src="src/directives/mwlCalendarMonth.js"></script>
+    <script src="src/directives/mwlCalendarSlideBox.js"></script>
+    <script src="docs/scripts/demo.js"></script>
+</body>

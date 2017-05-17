@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html ng-app="adTech">
+<head>
+<meta charset="ISO-8859-1">
+<title>Media Planning Tool</title>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel='stylesheet' href="css/xeditable.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/jquery-ui.css" />
+<link rel="stylesheet" href="css/angular-multi-select.css" />
+<link rel="stylesheet" href="css/jquery-ui-timepicker-addon.css" />
+
+</head>
+<body class="container-fluid overflow-hidden">
+<div class="nav-1">
+	<nav class="navbar navbar-inverse header-navigation" ng-if="userId">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="javascript:void(0)" style="margin-left: 1px;font-size: xx-large;font-weight: 100;">Media Planning Tool</a>
+	    </div>
+	    <div>
+	      <ul class="nav navbar-nav navbar-right">
+	      <li class="welcome-user">
+	      	<a href="javascript:void(0)">
+	      		<span class="glyphicon glyphicon-user header-user-icon" ></span>
+				<span>Welcome {{ name }} | {{roleName}}</span>  
+				<!-- <span class="glyphicon glyphicon-chevron-down" style="color: white;"></span> -->
+			</a>
+		 </li>
+	      
+	      <!-- <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-bell" aria-hidden="true" ></span></a></li>
+	        <li><a href="javascript:void(0)"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span></a></li> -->
+	        <li><a href="#/logout" style="margin-right: 15px;"><span class="glyphicon glyphicon-off" aria-hidden="true" ></span></a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	</div>
+	<nav class="navbar navbar-inverse sub-navigation-menu" ng-if="userId">
+	  <div class="container-fluid">
+	    <div>
+	      <ul class="app-top-nav nav navbar-nav navbar-right">
+		      	<li class="main_navigation_bar_content hover-tab" ng-class="{active:isActive('/dashboard')}">
+		      		<a href="#/dashboard" ng-if="roleName=='ADMIN' || roleName=='PLANNER'">Dashboard</a>
+		      		<a href="#/welcome" ng-if="roleName=='TRAFFICKER'">Dashboard</a>
+		      	</li>
+				<li class="main_navigation_bar_content hover-tab" ng-if="roleName == 'ADMIN' || roleName == 'PLANNER'" ng-class="{active:isActive('/proposal')}" >
+					<a href="#/proposal">Proposal</a>
+				</li>
+				
+				<li class="main_navigation_bar_content hover-tab" ng-if="roleName == 'ADMIN' || roleName == 'TRAFFICKER'" ng-class="{active:isActive('/campaigns')}">
+					<a href="#/campaigns">Campaigns</a>
+				</li>
+				<li class="main_navigation_bar_content hover-tab" ng-if="roleName == 'ADMIN'" ng-class="{active:isActive('/admin')}">
+					<a href="#/admin">Admin</a>
+				</li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	<div class="row">
+		<!--  main content area -->
+			<div ng-show="isViewLoading" class="loading"></div>
+			<div ng-view="" id="ng-view"></div>
+	</div>
+
+<!-- Libraries -->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/jquery-ui-sliderAccess.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
+<script src="js/angular-route.min.js"></script>
+<script src="js/angular-animate.min.js"></script>
+
+<script src="js/toaster.js"></script>
+<script src="js/xeditable.js"></script>
+<script src="js/angular-multi-select.js"></script>
+<script src="js/angular-css-injector.min.js"></script>
+<script src="js/angular-modal-service.js"></script>
+<script src="js/jquery-ui-timepicker-adon.js"></script>
+<script src="js/typed.js"></script>
+
+	<script src="plugins/dashboard/js/calendar/moment.min.js"></script>
+    <script src="plugins/dashboard/js/calendar/module.js"></script>
+    <script src="plugins/dashboard/js/calendar/directives/mwlCalendar.js"></script>
+    <script src="plugins/dashboard/js/calendar/filters/calendarTruncateEventTitle.js"></script>
+    <script src="plugins/dashboard/js/calendar/filters/calendarLimitTo.js"></script>
+    <script src="plugins/dashboard/js/calendar/services/calendarConfig.js"></script>
+    <script src="plugins/dashboard/js/calendar/services/calendarTitle.js"></script>
+    <script src="plugins/dashboard/js/calendar/services/calendarHelper.js"></script>
+    <script src="plugins/dashboard/js/calendar/services/calendarDebounce.js"></script>
+    <script src="plugins/dashboard/js/calendar/services/moment.js"></script>
+    <script src="plugins/dashboard/js/calendar/directives/mwlCalendarMonth.js"></script>
+    <script src="plugins/dashboard/js/calendar/directives/mwlCalendarSlideBox.js"></script>
+    <script src="plugins/dashboard/js/calendar/directives/mwlDateModifier.js"></script>
+
+<!-- AngularJS custom codes -->
+<script src="app/app.js"></script>
+<script src="app/data.js"></script>
+<script src="app/directives.js"></script>
+<script src="app/showErrors.js"></script>
+<script src="plugins/authentication/app/authCtrl.js"></script>
+<script src="plugins/authentication/app/logoutCtrl.js"></script>
+<script src="app/modalCtrl.js"></script>
+
+ 	<!-- <script src="js/calendar/docs/scripts/demo.js"></script> -->
+
+
+<!-- AngularJS custom codes for DashBoard Module-->
+<script src="plugins/dashboard/js/ng-google-chart.js"></script>
+<script src="plugins/dashboard/app/dashBoardCtrl.js"></script>
+<script src="plugins/dashboard/app/calendarDashBoardCtrl.js"></script>
+<script src="plugins/dashboard/app/campaignDashboardCtrl.js"></script>
+
+<!-- AngularJS custom codes for Proposal Module-->
+<script src="plugins/proposal/app/proposalCtrl.js"></script>
+<script src="plugins/proposal/app/proposalLineItemCtrl.js"></script>
+<script src="plugins/proposal/app/proposalLineItemViewCtrl.js"></script>
+<script src="plugins/proposal/app/createUpdateProposalCtrl.js"></script>
+<script src="plugins/proposal/app/createUpdatelLineItemCtrl.js"></script>
+<script src="plugins/proposal/app/directives.js"></script>
+
+<script src="plugins/campaigns/app/campaignsCtrl.js"></script>
+<script src="plugins/campaigns/app/campaignsLineItemCtrl.js"></script>
+<script src="plugins/campaigns/app/campaignsLineItemViewCtrl.js"></script>
+<script src="plugins/campaigns/app/createUpdateCompainsCtrl.js"></script>
+<script src="plugins/campaigns/app/createUpdateCompainsLineItemCtrl.js"></script>
+<script src="plugins/campaigns/app/orderCampaignsCtrl.js"></script>
+<script src="plugins/campaigns/app/directives.js"></script>
+
+
+<!-- AngularJS custom codes for Pricing Module-->
+<script src="plugins/pricing/app/pricingCtrl.js"></script>
+<script src="plugins/pricing/app/directives.js"></script>
+
+<!-- AngularJS custom codes for admin Module-->
+<script src="plugins/admin/app/attributeCtrl.js"></script>
+
+
+<script src="plugins/admin/app/creativeCtrl.js"></script>
+<script src="plugins/admin/app/productCtrl.js"></script>
+<script src="plugins/admin/app/salesTargetsCtrl.js"></script>
+<script src="plugins/admin/app/directives.js"></script>
+<script src="plugins/admin/js/admin.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/htmlParser.js"></script>
+<script src="plugins/campaigns/app/assetsCtrl.js"></script>
+
+
+</body>
+</html>

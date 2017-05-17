@@ -1,0 +1,99 @@
+<div class="admin-div">
+	<div ng-include="'plugins/dashboard/partials/dashboard-left-nav.html'"></div>
+	<div class="col-md-6 col-md-offset-2">
+          <div>
+          
+          <div class="row">
+            <div class="col-md-12">
+           <h2 class="text-center">{{ calendarTitle }}</h2>
+            <div class="col-md-4 text-right" style="float: right;">
+              <div class="btn-group" style="padding-top: 5px;padding-bottom: 10px;">
+                <button
+                  class="btn btn-primary"
+                  mwl-date-modifier
+                  date="calendarDay"
+                  decrement="calendarView">
+                  Previous
+                </button>
+                <button
+                  class="btn btn-default"
+                  mwl-date-modifier
+                  date="calendarDay"
+                  set-to-today>
+                  Today
+                </button>
+                <button
+                  class="btn btn-primary"
+                  mwl-date-modifier
+                  date="calendarDay"
+                  increment="calendarView">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <br>
+          <mwl-calendar
+            events="events"
+            view="calendarView"
+            view-title="calendarTitle"
+            current-day="calendarDay"
+            on-event-click="eventClicked(calendarEvent)"
+			on-timespan-click="dayClicked(calendarDate)"
+            auto-open="true"
+            day-view-start="06:00"
+            day-view-end="22:00"
+            day-view-split="30">
+          </mwl-calendar>
+          
+          </div>
+			<br/>
+			<br/>
+			<div>
+			<div class=" row table-responsive">
+				<table class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th class="width-30p" ng-click="sort_by('proposalName');">{{property.proposalName}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('advertiserName');">{{property.advertiserName}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('firstName');">{{property.createdBy}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p">{{property.dueOn}}&nbsp;<!-- <i class="glyphicon glyphicon-sort"></i> --></th>
+							<th class="width-10p">{{property.budget}}&nbsp;<!-- <i class="glyphicon glyphicon-sort"></i> --></th>
+							<th class="width-10p">{{property.salesCategory}}&nbsp;<!-- <i class="glyphicon glyphicon-sort"></i> --></th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						<tr ng-repeat="p in filteredItems = (proposals | filter: filterProposal) | filter:{name:filterProposal} | orderBy:predicate :reverse | startProposalFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" animate-on-change='p.proposalName + p.advertiserName + p.user.firstName + p.dueOn + p.status' ng-animate=" 'animate'">
+							<td title="{{p.proposalName}}">
+								<a href="{{p.linkPath}}">{{p.proposalName}}</a>
+							</td>
+							<td title="{{p.advertiserName}}">
+								{{p.advertiserName}}
+							</td>
+							<td title="{{p.user.firstName}}">
+								{{p.user.firstName}}
+							</td>
+							<td title="{{p.showDueOn}}">
+								{{p.showDueOn}}
+							</td>
+							<td title="{{p.budget}}">
+								{{p.budget}}
+							</td>
+							<td title="{{p.salesCategory}}">
+								{{p.salesCategory}}
+							</td>
+							
+						</tr>
+					</tbody>
+    				<tr ng-hide="proposals.length > -1"><td style="vertical-align:middle;" colspan="5"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+				</table>
+			</div>
+			<div class="row" style="background-color: #e6e6e6; padding: 4px;">
+				<div pagination="" page="currentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems.length" items-per-page="entryLimit" class="pagination pagination-sm col-lg-12" style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;" next-text="&raquo;"></div>
+	
+			</div>
+          </div>
+     </div>
+</div>	
+

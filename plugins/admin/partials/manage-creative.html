@@ -1,0 +1,222 @@
+<div class="admin-div">
+<div ng-include="'plugins/admin/partials/admin-nav.html'"></div>
+<div class="col-lg-10 main-container manageCreative">
+	<div class="row">
+		<h4 class="text-left">{{property.manageCreatives}}</h4>
+	</div>
+	<div class="row attribute-header">
+		<div class="col-lg-1 col-sm-12 col-md-2 filter-div">
+			<span>{{property.filter}}</span>
+		</div>
+		<div class="col-lg-3 col-sm-12 col-md-2">
+			<div class="input-group input-group filter_dev">
+				<input type="text" class="form-control filter_height" placeholder="Filter Creative list ..." ng-model="filterCreative" ng-change="resetLimit();"> <span
+					class="input-group-addon"><span
+					class="glyphicon glyphicon-search"></span></span>
+			</div>
+		</div>
+		<div class="col-lg-6 col-sm-12 col-md-8"></div>
+				<div class="col-lg-2 col-sm-12 col-md-6">
+			<button class="btn pull-right add-creative-button" ng-click="addCreative()"><span class="glyphicon glyphicon-plus-sign"></span> {{property.addCreativeButton}}</button>
+		</div>
+	</div>
+
+	<div class="row table-responsive">
+		<table class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table" style="table-layout:fixed" id="creativeTable">
+			<thead>
+				<tr>
+					<th ng-click="sort_by('name');"><strong>{{property.name}}</strong>&nbsp;<span class="sorter"><i class="glyphicon glyphicon-triangle-top"></i><i class="glyphicon glyphicon-triangle-bottom"></i></span></th>
+					<th ng-click="sort_by('type');"><strong>{{property.type}}</strong>&nbsp;<span class="sorter"><i class="glyphicon glyphicon-triangle-top"></i><i class="glyphicon glyphicon-triangle-bottom"></i></span></th>
+					<th>{{property.width1}}</th>
+					<th>{{property.height1}}</th>
+					<th>{{property.width2}}</th>
+					<th>{{property.height2}}</th>
+					<th>{{property.description}}</th>
+					<th>{{property.action}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="creative in filteredItems = (creatives | filter: filterCreative) | filter:{name:filterCreative} | orderBy:predicate :reverse | startCreativeFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" animate-on-change='creative.name + creative.type' ng-animate=" 'animate'">
+					<td colspan="8">
+					<table class="mpt-table">
+						<tbody>
+							<tr>
+								<td ng-if=false>
+									<span editable-text="creative.id" class="spantext" e-name="name" e-form="creativeform" e-required>
+									{{creative.id}}
+									</span>
+								</td>
+								<td title="{{creative.name}}">
+									<span editable-text="creative.name"  e-maxlength="50" class="spantext" e-name="name" e-form="creativeform" e-required>
+									{{creative.name}}
+									</span>
+								</td>
+								<td title="{{creative.type}}">
+									<span editable-select="creative.type" e-name="type" e-form="creativeform" e-ng-options="s.value as s.text for s in types"  e-required>
+										{{creative.type}}
+									</span>
+								</td>
+								<td title="{{creative.width1}}">
+									<span editable-text="creative.width1" e-name="width1"  e-maxlength="8" e-form="creativeform" e-type="text" e-step="any" e-required>
+										{{creative.width1}}
+									</span>
+								</td>
+								<td title="{{creative.height1}}">
+									<span editable-text="creative.height1" e-name="height1"  e-maxlength="8"  e-form="creativeform" e-type="text" e-step="any" e-required>
+										{{creative.height1}}
+									</span>
+								</td>
+								<td title="{{creative.width2}}">
+									<span editable-text="creative.width2" e-name="width2"   e-maxlength="8" e-form="creativeform" e-type="text" e-step="any">
+										{{creative.width2}}
+									</span>
+								</td>
+								<td title="{{creative.height2}}">
+									<span editable-text="creative.height2" e-name="height2"  e-maxlength="8"  e-form="creativeform" e-type="text" e-step="any">
+										{{creative.height2}}
+									</span>
+								</td>
+								<td title="{{creative.description}}">
+								<span editable-textarea="creative.description" e-name="description"  e-maxlength="200"  e-form="creativeform" id="creativeDesText">
+									{{creative.description}}
+								</span>
+								</td>
+								<td style="white-space: nowrap" align="center">
+							        <form editable-form method="post" name="creativeform" onbeforesave="saveCreative($data, creative)" ng-show="creativeform.$visible" class="form-buttons form-inline" shown="inserted == creative">
+							          <button type="submit" ng-disabled="creativeform.$waiting" class="glyphicon glyphicon-ok"></button>
+							          <button type="button" ng-disabled="creativeform.$waiting" ng-click="creativeform.$cancel();cancelCreativeEdit(this)" class="glyphicon glyphicon-remove"></button>
+							        </form>
+							         <div class="buttons" ng-show="!creativeform.$visible">
+										<span class="glyphicon glyphicon-edit"style="vertical-align: middle; cursor:pointer" ng-click="getCreativesFlag() ?creativeform.$show():'';bindTextareaAuto()"></span>
+										<span class="glyphicon glyphicon-trash" style="vertical-align: middle; cursor:pointer" ng-click="removeCreative(this)"></span>
+										<span class="glyphicon glyphicon-list" style="vertical-align: middle; cursor:pointer" ng-click="fetchAttributes(creative.id)" ng-show="!creative.showAttributes"></span>
+										<span class="glyphicon glyphicon-minus" style="vertical-align: middle; cursor: pointer" ng-click="hide(this)" ng-show="creative.showAttributes"></span>
+									</div>  
+						      </td>
+							</tr>
+							<tr data-ng-show="creative.showAttributes">
+								<td colspan=8>
+									<table style="width:100%;" class="mpt-table mpt-table-inner">
+									   <tbody id="attribute-container">
+									      <tr id="attribute-container-row">
+									         <td colspan=8>
+									            <div class="content-area tab-content" id="attribute-container-div">
+									               <div class="row attribute-header-inner">
+									                  <div class="child_filter_dev">{{property.associatedFilter}}</div>
+									                  <div>
+									                     <div class="input-group input-group child_filter_text">
+									                        <input type="text" class="form-control filter_height" placeholder="Filter Attribute list ..." ng-model="filterAttribute" ng-change="resetAttributeLimit();"> <span
+									                           class="input-group-addon"><span
+									                           class="glyphicon glyphicon-search"></span></span>
+									                     </div>
+									                  </div>
+									                  <div ></div>
+									                  <div >
+									                     <button class="btn pull-right add-creative-button child_grid_add_button" ng-click="addAttribute()"><span class="glyphicon glyphicon-plus-sign"></span> {{property.linkAttributeButton}}</button>
+									                  </div>
+									               </div>
+									               <div class="row table-responsive link-attrib-table" style="max-height: 160px;">
+									                  <table class="table table-striped font-12 table-bordered table-hover table-condensed">
+									                     <thead>
+									                        <tr>
+									                           <th>{{property.associatedName}}&nbsp;<a ng-click="sortAttribute_by('name');"><i class="glyphicon glyphicon-sort"></i></a></th>
+									                           <!-- 							<th >Type&nbsp;<a ng-click="sortAttribute_by('type');"><i class="glyphicon glyphicon-sort"></i></a></th> -->
+									                           <th>{{property.associatedValue}}</th>
+									                           <th>{{property.associatedDescription}}</th>
+									                           <th>{{property.associatedAction}}</th>
+									                        </tr>
+									                     </thead>
+									                     <tbody>
+									                        <tr ng-show="attributeGrid.attributes.length==0">
+									                           <td style="vertical-align:middle;" colspan="4"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td>
+									                        </tr>
+									                        <tr ng-hide="attributeGrid.attributes.length>-1">
+									                           <td style="vertical-align:middle;" colspan="4"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td>
+									                        </tr>
+									                        <tr data-ng-repeat="attribute in attributeFilteredItems = (attributeGrid.attributes | filter: filterAttribute)| filter:{name:filterAttribute} | startAttributeFrom:(currentPage-1)*attributeEntryLimit | limitTo:attributeEntryLimit" animate-on-change='attribute.name + attribute.type' ng-animate=" 'animate'">
+									                           <td ng-show=false>
+									                              <span editable-text="attribute.id" class="spantext" e-name="id" e-form="attributeform" e-required>
+									                              {{attribute.id}}
+									                              </span>
+									                           </td>
+									                           <td title="{{attribute.name}}">
+									                              <span editable-text="attribute.name" class="spantext"   e-maxlength="50" e-name="name" e-form="attributeform" e-required ng-if="attributeEdit">
+									                              {{attribute.name}}
+									                              </span>
+									                              <span editable-select="attribute.name" class="spantext" e-name="name" e-form="attributeform" e-required e-ng-options="s as s.name for s in attributeList" e-ng-change="selectAttribute(this)" ng-if="attributeAssociate">
+									                              {{attribute.name.name ? attribute.name.name : attribute.name}}
+									                              </span>
+									                           </td>
+			                           							<td ng-show=false>
+			                           								<span  editable-text="attribute.type"   e-maxlength="50" e-name="type" e-form="attributeform" >
+			                           									{{attribute.type}}
+			                           								</span>
+			                           							</td>
+									                           <td title="{{attribute.value}}">
+									                              <span  editable-text="attribute.value"  e-maxlength="50" e-name="value" e-form="attributeform" e-required  ng-if="attributeEdit">
+									                              {{attribute.value}}
+									                              </span>
+									                              <span  ng-if="attributeAssociate">
+									                              {{attribute.value}}
+									                              </span>
+									                           </td>
+									                           <td title="{{attribute.description}}">
+									                              <span  editable-textarea="attribute.description"  e-maxlength="200" e-name="description" e-form="attributeform" e-required ng-if="attributeEdit">
+									                              {{attribute.description}}
+									                              </span>
+									                              <span  ng-if="attributeAssociate">
+									                              {{attribute.description}}
+									                              </span>
+									                           </td>
+									                           <td style="white-space: nowrap" align="center">
+									                              <form editable-form method="post" name="attributeform" onbeforesave="saveAttribute($data, attribute,this)" ng-show="attributeform.$visible" class="form-buttons form-inline" shown="inserted == attribute">
+									                                 <button type="submit" class="glyphicon glyphicon-ok" ng-disabled="attributeform.$waiting">
+									                                 </button>
+									                                 <button type="button" class="glyphicon glyphicon-remove" ng-disabled="attributeform.$waiting" ng-click="attributeform.$cancel();cancelAttributeEdit(this)">
+									                                 </button>
+									                              </form>
+									                              <div class="buttons" ng-show="!attributeform.$visible">
+<!-- 									                                 <span class="glyphicon glyphicon-edit" style="vertical-align: middle; cursor:pointer" ng-click="attributeform.$show();editAttributeForm(this)"></span>&nbsp; -->
+									                                 <span class="glyphicon glyphicon-trash" style="vertical-align: middle; cursor:pointer" ng-click="removeAttribute(this)"></span>
+									                              </div>
+									                           </td>
+									                        </tr>
+									                     </tbody>
+									                  </table>
+									               </div>
+									               <!-- <div class="row pagination-row">
+									                  <div pagination="" page="attributeCurrentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="attributeFilteredItems.length" items-per-page="attributeEntryLimit" class="pagination pagination-sm col-lg-6" style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;" next-text="&raquo;"></div>
+									                  <div class="col-lg-4"></div>
+									                  			<div class="col-lg-2 ">
+									                  				<button class="btn pull-right add-creative-button" ng-click="addAttribute()"><span class="glyphicon glyphicon-plus-sign"></span> Assocciate Attribute</button>
+									                  			</div>
+									               </div> -->
+									               <!-- </div> -->
+									            </div>
+									         </td>
+									      </tr>
+									   </tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</td>
+				</tr>
+				<tr ng-show="creatives.length==0"><td style="vertical-align:middle;" colspan="8"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+				<tr ng-hide="creatives.length>-1"><td style="vertical-align:middle;" colspan="8"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+			</tbody>
+		</table>
+		</div>
+		<div class="row" style="background-color: #e6e6e6; padding: 4px;">
+			<div pagination="" page="currentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems.length" items-per-page="entryLimit" class="pagination pagination-sm col-lg-6" style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;" next-text="&raquo;"></div>
+			<div class="col-lg-4"></div>
+<!-- 			<div class="col-lg-2 "> -->
+<!-- 				<button class="btn pull-right add-creative-button" ng-click="addCreative()"><span class="glyphicon glyphicon-plus-sign"></span> Add Creative</button> -->
+<!-- 			</div> -->
+		</div>
+		<div ng-include="'plugins/admin/partials/modal.html'"></div>
+		<div ng-include="'plugins/admin/partials/editModal.html'"></div>
+		  
+</div>
+</div>

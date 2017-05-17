@@ -1,0 +1,21 @@
+<div class="col-lg-2 left-naviation-menu">
+	<ul class="nav nav-pills nav-stacked">
+		<li ng-class="{subMenuActive:isActive('/dashboard/bar')}" ng-if="roleName=='PLANNER' || roleName=='ADMIN'">
+			<a href="#/dashboard" >
+				<span class="glyphicon glyphicon-list" style="margin-right: 13px;background-color: transparent;" ></span>{{property.mediaPlannerDashboard}}
+			</a>
+		</li>
+		<li ng-class="{subMenuActive:isActive('/dashboard/calendar')}" ng-if="roleName=='PLANNER' || roleName=='ADMIN'">
+			<a href="#/dashboard/calendar" >
+				<span class="glyphicon glyphicon-edit" style="margin-right: 13px;background-color: transparent;"></span>{{property.calendar}}
+			</a>
+		</li>
+		<li ng-class="{subMenuActive:isActive('/welcome/pie')}" ng-if="roleName=='TRAFFICKER' || roleName=='ADMIN'">
+			<a href="#/welcome" >
+				<span class="glyphicon glyphicon-tags" style="margin-right: 13px;background-color: transparent;">
+				</span>{{property.campaignsDashboard}} 
+			</a>
+		</li>
+		
+	</ul>
+</div>

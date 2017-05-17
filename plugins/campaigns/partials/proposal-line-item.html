@@ -1,0 +1,420 @@
+<section ng-controller="campaignsLineItemCtrl as tab" class="campaigns-line-item">
+
+
+
+<div >
+        <div class="campaigns-info">
+            <div class="campaigns-name">
+                <label>
+                    {{proposalData.proposalName}}
+                    <button ng-click="editPropsal(proposalData.id)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Edit Proposal
+                    </button>
+                </label>
+            </div>
+            <div class="campaigns-details">
+                <label class="status">Status :</label>
+                <div class="status-text">{{proposalData.status}}</div>
+                <label class="owner">Owner :</label>
+                <div class="owner-text">{{proposalData.user.firstName}} {{proposalData.user.lastName}}</div>
+                <label class="assignTo">Assign To :</label>
+                <div class="assignTo-select">
+                    <select>
+                        <option>Kapil Kaushik</option>
+                        <option>Kapil Malhotra</option>
+                        <option>Manjeet Chauhan</option>
+                    </select>
+                </div>
+                
+                <div class="campaigns-icons">
+                    <span ng-repeat="st in proposalData.nextStatus">
+                    	<a href="javascript:void(0);" class="glyphicon glyphicon-film" ng-click="changeStatus(proposalData.id, st.action);"></a>
+                    </span>
+                    <!-- <span class="glyphicon glyphicon-lock"></span> -->
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </div>
+            </div>
+        </div>
+		<div class="summary-section basic-detail-section">
+			<header  style="width: 90%;margin-left: 5.0%">
+				<a class="breadcrumb-text">{{property.basicDetails}}</a>
+				<div class="pull-right text-right">
+					<div class="btn-group">
+						<!-- <button type="button" class="btn pull-left dropdown-toggle add-creative-button ng-binding" style="margin-right: 16px" ng-click="nextStatus(proposalData.status);showActionOptions=!showActionOptions">
+							{{proposalData.status}}
+							<i class="caret"></i>
+						</button>
+						<ul class="dropdown-menu" role="menu" >
+							<li ng-repeat="st in statusList">
+							    <a href="javascript:void(0);" ng-click="changeStatus(proposalData.id, st.action);">{{st.name}}</a>
+							</li>
+						</ul> -->
+						
+					 </div>
+				</div>
+			</header>
+		    <div>
+		        <aside class="pull-left">
+					<section>
+						<label>{{property.orderName}}</label> <span>{{proposalData.proposalName}}</span>
+					</section>
+					<section>
+						<label>{{property.createStartDate}}</label> <span>{{proposalData.startDate}}</span>
+					</section>
+					<section>
+						<label>{{property.createAdvertiserName}}</label> <span>{{proposalData.advertiserName}}</span>
+					</section>	
+				</aside>
+				<aside class="pull-right">
+					<section>
+						<label>{{property.campaignName}}</label> <span>{{proposalData.compaignName}}</span>
+					</section>
+					<section>
+						<label>{{property.createEndDate}}</label> <span>{{proposalData.endDate}}</span>
+					</section>
+					<section>
+						<label>{{property.createSalesCategory}}</label> <span>{{proposalData.salesCategory}}</span>
+					</section>
+				</aside>
+	        </div>
+	    </div>
+    </div>
+
+	<div>
+		<div class="basic-detail-section main-container summary-section">
+			<header  style="width: 90%;margin-left: 5.0%">
+                <a class="breadcrumb-text">{{property.lineItems}}</a>
+                    <button class="btn pull-right add-creative-button ng-binding"
+                            style="margin-top: 3px; margin-right: 16px"
+                            ng-click="addLineItem(proposalData.id)">
+                        <span class="glyphicon glyphicon-plus-sign"></span> {{property.addLineItemButton}}
+                    </button>
+            </header>
+			<div class="row lineItem-header">
+				<div class="col-lg-1 col-sm-12 col-md-2 filter-div">
+					<span>Filter</span>
+				</div>
+				<div class="col-lg-3 col-sm-12 col-md-2">
+					<div class="input-group input-group">
+						<input baseprice="text" class="form-control"
+							placeholder="Filter line Item list ..." ng-model="filterLineItems"
+							ng-change="resetLimit();"> <span
+							class="input-group-addon"> <span
+							class="glyphicon glyphicon-search"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-12 col-md-8"></div>
+				<div class="col-lg-2 col-sm-12 col-md-6"></div>
+			</div>
+
+			<div class="row table-responsive">
+				<table
+					class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th ng-click="sort_by('productName');">{{property.tableProductName}}&nbsp;<a>
+									<i class="glyphicon glyphicon-sort"></i>
+							</a>
+							<th>{{property.tableStatus}}</th>
+							<th>{{property.tableType}}</th>
+							<th>{{property.tablePriority}}</th>
+							<th>{{property.tableFlight}}</th>
+							</th>
+							<th ng-click="sort_by('price');">{{property.tableRate}}&nbsp;<a> <i
+									class="glyphicon glyphicon-sort"></i>
+							</a>
+							</th>
+							
+							<th>{{property.tableImpressionsOrClicks}}</th>
+							<th>{{property.tableCTR}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="lineItem in filteredItems = (lineItems | filter: filterLineItems) | filter:{basePrice:filterLineItems} | orderBy:predicate :reverse | startLineItemsFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"
+							ng-animate=" 'animate'">
+							<td title="{{lineItem.product.name}}"><a ng-click="edit(lineItem)"><span 
+								editable-number="lineItem.product.name" e-name="productName"
+								e-form="lineform" e-required>{{lineItem.product.name}}</span></a></td>
+							
+							<td title="{{lineItem.status}}"><span
+								editable-number="lineItem.status" e-name="status"
+								e-form="lineform" e-required></span></td>
+							<td title="{{lineItem.type}}"><span
+								editable-number="lineItem.type" e-name="type"
+								e-form="lineform" e-required></span></td>
+							
+							<td title="{{lineItem.priority}}"><span
+								editable-number="lineItem.priority" e-name="priority"
+								e-form="lineform" e-required></span></td>
+							<td><span e-name="flight" editable-number="lineItem.flight"
+								e-form="lineform" e-required>{{lineItem.startDate}} - {{lineItem.endDate}}</span></td>
+								
+							<td title="{{lineItem.price}}"><span
+								editable-number="lineItem.price" e-name="price"
+								e-form="lineform" e-required>{{lineItem.price}}</span></td>
+								
+							<td title="{{lineItem.impressionsOrClicks}}"><span
+								editable-number="lineItem.impressionsOrClicks" e-name="impressionsOrClicks"
+								e-form="lineform" e-required>121212/454545</span></td>
+								
+							<td title="{{lineItem.ctr}}"><span
+								editable-number="lineItem.ctr"
+								e-name="ctr" e-form="lineform">
+									45454545 </span></td>
+							<td style="white-space: nowrap" align="center">
+								<form editable-form method="post" name="lineform"
+									onaftersave="saveLineItems($data, lineItem)"
+									ng-show="lineform.$visible" class="form-buttons form-inline"
+									shown="inserted == lineItem">
+									<button ng-disabled="lineform.$waiting" type="submit"
+										class="glyphicon glyphicon-ok"></button>
+									&nbsp;
+									<button class="glyphicon glyphicon-remove"
+										ng-disabled="lineform.$waiting"
+										ng-click="cancel(lineItem,$index,lineform)"></button>
+								</form>
+
+								<div class="buttons" ng-show="!lineform.$visible">
+									<span class="glyphicon glyphicon-edit"
+										style="vertical-align: middle; cursor: pointer"
+										ng-click="edit(lineItem)"></span>&nbsp; <span
+										class="glyphicon glyphicon-trash"
+										style="vertical-align: middle; cursor: pointer"
+										ng-click="removeLineItem(this)"></span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tr ng-show="lineItems.length==0">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-ban fa-3x"></i>&nbsp;{{propertyMessage.NoDataFoundMsg}}</td>
+					</tr>
+					<tr ng-hide="lineItems.length > -1">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-cog fa-3x fa-spin"></i>&nbsp;{{propertyMessage.loadingDataMsg}}</td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="row" style="background-color: #e6e6e6;">
+				<div pagination="" page="currentPage" max-size="5"
+					on-select-page="setPage(page)" boundary-links="true"
+					total-items="filteredItems.length" items-per-page="entryLimit"
+					class="pagination pagination-sm col-lg-12"
+					style="margin-top: 1px; margin-bottom: 0px;"
+					previous-text="&laquo;" next-text="&raquo;"></div>
+
+			</div>
+			<div ng-include="'plugins/admin/partials/modal.html'"></div>
+			<div
+				ng-include="'plugins/proposal/partials/changeStatusWarning.html'"></div>
+			<div ng-include="'plugins/admin/partials/editModal.html'"></div>
+		</div>
+	</div>
+
+
+
+
+
+
+   <!--  <ul class="nav nav-pills pseudo-tabs" style="padding-left: 143px;">
+		<li ng-class="{ active:tab.isSet(1) }"><a href
+			ng-click="tab.setTab(1)">Settings</a></li>
+		<li ng-class="{ active:tab.isSet(2) }"><a href
+			ng-click="tab.setTab(2)">Assets</a></li>
+
+	</ul> -->
+<!-- 	<div ng-show="tab.isSet(1)">
+		<div class="summary-section basic-detail-section">
+				<header>
+					<a class="breadcrumb-text">{{property.basicDetails}}</a>
+					<div class="pull-right text-right">
+						<div class="btn-group">
+							<button type="button" class="btn pull-left dropdown-toggle add-creative-button ng-binding" style="margin-right: 16px" ng-click="nextStatus(proposalData.status);showActionOptions=!showActionOptions">
+								{{proposalData.status}}
+								<i class="caret"></i>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+							    <li ng-repeat="st in statusList">
+							    	<a href="javascript:void(0);" ng-click="changeStatus(proposalData.id, st.action);">{{st.name}}</a>
+							    </li>
+							 </ul>
+							 <button class="btn pull-right add-creative-button ng-binding" ng-click="editPropsal(proposalData.id)">
+								<lable class="glyphicon glyphicon-pencil"></lable>
+								{{property.editProposalButton}}
+							</button>
+						</div>
+					</div>
+				</header>
+			<div>
+				<aside class="pull-left">
+					<section>
+						<label>{{property.orderName}}</label> <span>{{proposalData.proposalName}}</span>
+					</section>
+					<section>
+						<label>{{property.createStartDate}}</label> <span>{{proposalData.startDate}}</span>
+					</section>
+					<section>
+						<label>{{property.createAdvertiserName}}</label> <span>{{proposalData.advertiserName}}</span>
+					</section>	
+				</aside>
+				<aside class="pull-right">
+					<section>
+						<label>{{property.campaignName}}</label> <span>{{proposalData.compaignName}}</span>
+					</section>
+					<section>
+						<label>{{property.createEndDate}}</label> <span>{{proposalData.endDate}}</span>
+					</section>
+					<section>
+						<label>{{property.createSalesCategory}}</label> <span>{{proposalData.salesCategory}}</span>
+					</section>
+					
+				</aside>
+			</div>
+		</div>
+	
+		<div class="basic-detail-section main-container summary-section">
+			<header>
+                <a class="breadcrumb-text">{{property.lineItems}}</a>
+                    <button class="btn pull-right add-creative-button ng-binding"
+                            style="margin-top: 5px; margin-right: 16px"
+                            ng-click="addLineItem(proposalData.id)">
+                        <span class="glyphicon glyphicon-plus-sign"></span> {{property.addLineItemButton}}
+                    </button>
+            </header>
+			<div class="row lineItem-header"
+				style="margin-left: 0px; margin-right: 0px; width: 100%">
+				<div class="col-lg-1 col-sm-12 col-md-2 filter-div">
+					<span>Filter</span>
+				</div>
+				<div class="col-lg-3 col-sm-12 col-md-2">
+					<div class="input-group input-group">
+						<input baseprice="text" class="form-control"
+							placeholder="Filter line Item list ..." ng-model="filterLineItems"
+							ng-change="resetLimit();"> <span
+							class="input-group-addon"> <span
+							class="glyphicon glyphicon-search"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-12 col-md-8"></div>
+				<div class="col-lg-2 col-sm-12 col-md-6"></div>
+			</div>
+
+			<div class="row table-responsive"
+				style="margin-left: 0px; margin-right: 0px; width: 100%">
+				<table
+					class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th ng-click="sort_by('productName');">{{property.tableProductName}}&nbsp;<a>
+									<i class="glyphicon glyphicon-sort"></i>
+							</a>
+							<th>{{property.tableStatus}}</th>
+							<th>{{property.tableType}}</th>
+							<th>{{property.tablePriority}}</th>
+							<th>{{property.tableFlight}}</th>
+							</th>
+							<th ng-click="sort_by('price');">{{property.tableRate}}&nbsp;<a> <i
+									class="glyphicon glyphicon-sort"></i>
+							</a>
+							</th>
+							
+							<th>{{property.tableImpressionsOrClicks}}</th>
+							<th>{{property.tableCTR}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="lineItem in filteredItems = (lineItems | filter: filterLineItems) | filter:{basePrice:filterLineItems} | orderBy:predicate :reverse | startLineItemsFrom:(currentPage-1)*entryLimit | limitTo:entryLimit"
+							ng-animate=" 'animate'">
+							<td title="{{lineItem.product.name}}"><a ng-click="edit(lineItem)"><span 
+								editable-number="lineItem.product.name" e-name="productName"
+								e-form="lineform" e-required>{{lineItem.product.name}}</span></a></td>
+							
+							<td title="{{lineItem.status}}"><span
+								editable-number="lineItem.status" e-name="status"
+								e-form="lineform" e-required></span></td>
+							<td title="{{lineItem.type}}"><span
+								editable-number="lineItem.type" e-name="type"
+								e-form="lineform" e-required></span></td>
+							
+							<td title="{{lineItem.priority}}"><span
+								editable-number="lineItem.priority" e-name="priority"
+								e-form="lineform" e-required></span></td>
+							<td><span e-name="flight" editable-number="lineItem.flight"
+								e-form="lineform" e-required>{{lineItem.startDate}} - {{lineItem.endDate}}</span></td>
+								
+							<td title="{{lineItem.price}}"><span
+								editable-number="lineItem.price" e-name="price"
+								e-form="lineform" e-required>{{lineItem.price}}</span></td>
+								
+							<td title="{{lineItem.impressionsOrClicks}}"><span
+								editable-number="lineItem.impressionsOrClicks" e-name="impressionsOrClicks"
+								e-form="lineform" e-required>121212/454545</span></td>
+								
+							<td title="{{lineItem.ctr}}"><span
+								editable-number="lineItem.ctr"
+								e-name="ctr" e-form="lineform">
+									45454545 </span></td>
+							<td style="white-space: nowrap" align="center">
+								<form editable-form method="post" name="lineform"
+									onaftersave="saveLineItems($data, lineItem)"
+									ng-show="lineform.$visible" class="form-buttons form-inline"
+									shown="inserted == lineItem">
+									<button ng-disabled="lineform.$waiting" type="submit"
+										class="glyphicon glyphicon-ok"></button>
+									&nbsp;
+									<button class="glyphicon glyphicon-remove"
+										ng-disabled="lineform.$waiting"
+										ng-click="cancel(lineItem,$index,lineform)"></button>
+								</form>
+
+								<div class="buttons" ng-show="!lineform.$visible">
+									<span class="glyphicon glyphicon-edit"
+										style="vertical-align: middle; cursor: pointer"
+										ng-click="edit(lineItem)"></span>&nbsp; <span
+										class="glyphicon glyphicon-trash"
+										style="vertical-align: middle; cursor: pointer"
+										ng-click="removeLineItem(this)"></span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tr ng-show="lineItems.length==0">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-ban fa-3x"></i>&nbsp;{{propertyMessage.NoDataFoundMsg}}</td>
+					</tr>
+					<tr ng-hide="lineItems.length > -1">
+						<td style="vertical-align: middle;" colspan="5"><i
+							class="fa fa-cog fa-3x fa-spin"></i>&nbsp;{{propertyMessage.loadingDataMsg}}</td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="row"
+				style="margin-left: 0px; margin-right: 0px; width: 100%; background-color: #e6e6e6;">
+				<div pagination="" page="currentPage" max-size="5"
+					on-select-page="setPage(page)" boundary-links="true"
+					total-items="filteredItems.length" items-per-page="entryLimit"
+					class="pagination pagination-sm col-lg-12"
+					style="margin-top: 1px; margin-bottom: 0px;"
+					previous-text="&laquo;" next-text="&raquo;"></div>
+
+			</div>
+			<div ng-include="'plugins/admin/partials/modal.html'"></div>
+			<div
+				ng-include="'plugins/proposal/partials/changeStatusWarning.html'"></div>
+			<div ng-include="'plugins/admin/partials/editModal.html'"></div>
+		</div>
+	</div> -->
+	
+</section>
+
+
+
+
+

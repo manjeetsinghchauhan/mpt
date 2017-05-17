@@ -1,0 +1,162 @@
+<section class="section-width" ng-controller="attributeCtrl">
+	<div class="row">
+		<div ng-include="'plugins/admin/partials/admin-nav.html'"></div>
+		<div class="col-md-12 content-area ">
+			<div class="tab-content">
+				<!-- manage Attribute content start -->
+				<div class="tab-pane active" id="tab-0">
+					<div class="arrow">
+						<img src="images/arrow.gif" />
+					</div>
+					<br>
+
+					<h3 class="quote">Manage Attributes</h3>
+					<div class="col-md-12 col-sm-12 col-xs-12 head-row table-border-1">
+						<div class="sw-search" >
+						<div class="nav-search" id="nav-search">	
+								Filter: <span class="input-icon">
+					                        <input placeholder="Filter attribute list ..." class="nav-search-input" ng-model="filterAttribute" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:300px;" focus>
+					                        <i class="search-icon fa fa-search nav-search-icon"></i>
+					                    </span>
+						</div>	
+						</div>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12 table-border">
+
+						<table class="table table-striped font-12 table-bordered table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>Name&nbsp;<a ng-click="sort_by('name');"><i class="glyphicon glyphicon-sort"></i></a></th>
+									<th>Type&nbsp;<a ng-click="sort_by('type');"><i class="glyphicon glyphicon-sort"></i></a></th>
+									<th>Value&nbsp;<a ng-click="sort_by('value');"><i class="glyphicon glyphicon-sort"></i></a></th>
+									<th>Description</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+								<tr ng-repeat="attribute in attributes | filter:filterAttribute | orderBy:predicate :reverse | startaAttributeFrom:(currentPage-1)*entryLimit | limitTo:entryLimit" animate-on-change='attribute.name + attribute.type + attribute.value' ng-animate=" 'animate'">
+									<td>
+										<span editable-text="attribute.name" e-name="name" e-form="rowform" e-required>
+										{{attribute.name}}
+										</span>
+									</td>
+									<td>
+										<span editable-text="attribute.type" e-name="type" e-form="rowform" e-required>
+											{{attribute.type}}
+										</span>
+									</td>
+									<td>
+									<span editable-text="attribute.value" e-name="value" e-form="rowform" e-required>
+										{{attribute.value}}
+									</span>
+									</td>
+									<td>
+									<span editable-text="attribute.description" e-name="description" e-form="rowform" e-required>
+										{{attribute.description}}
+									</span>
+									</td>
+									<!-- <td><button class="edit-btn">
+											<span class="glyphicon glyphicon-edit edit-btn"
+												aria-hidden="true"></span>
+										</button>
+										<button class="del-btn">
+											<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+										</button>
+									</td> -->
+									<td style="white-space: nowrap">
+							        <!-- form -->
+							        <form editable-form method="post" name="rowform" onbeforesave="saveAttribute($data, attribute.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == attribute">
+							          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+							            save
+							          </button>
+							          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+							            cancel
+							          </button>
+							        </form>
+							        <div class="buttons" ng-show="!rowform.$visible">
+							          <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
+							          <button class="btn btn-danger" ng-click="removeAttribute($index)">Delete</button>
+							        </div>  
+							      </td>
+								</tr>
+								
+							</tbody>
+							<tr ng-show="attributes.length==0"><td style="vertical-align:middle;" colspan="5"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+    						<tr ng-hide="attributes.length>-1"><td style="vertical-align:middle;" colspan="5"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+						</table>
+						<nav>
+							<div class="col-md-10" ng-show="filteredItems > 0">   
+							    <div pagination="" page="currentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></div>     	
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-default" ng-click="addAttribute()"><span class="glyphicon glyphicon-plus"></span>Add Attribute</button>  
+							</div>
+						</nav>
+						
+					</div>
+				</div>
+
+				<!-- manage attribute content end -->
+			</div>
+			<!-- tab content -->
+		</div>
+	</div>
+</section>
+
+
+
+
+ <!-- <div ng-controller="adminCtrl">
+   <table class="table table-bordered table-hover table-condensed">
+   <tr ng-show="attributes.length==0"><td style="vertical-align:middle;" colspan="5"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+	<tr ng-hide="attributes.length>-1"><td style="vertical-align:middle;" colspan="5"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+	<thead>
+		<tr>
+			<th>Name&nbsp;<a ng-click="sort_by('name');"><i class="glyphicon glyphicon-sort"></i></a></th>
+			<th>Type&nbsp;<a ng-click="sort_by('type');"><i class="glyphicon glyphicon-sort"></i></a></th>
+			<th>Value&nbsp;<a ng-click="sort_by('value');"><i class="glyphicon glyphicon-sort"></i></a></th>
+			<th>Description</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+    
+    <tr ng-repeat="attribute in attributes">
+      <td>
+        <span editable-text="attribute.name" e-name="name" e-form="rowform" e-required>
+          {{ attribute.name || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <span editable-text="attribute.type" e-name="type" e-form="rowform" e-required>
+          {{ attribute.type || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <span editable-text="attribute.value" e-name="value" e-form="rowform" e-required>
+          {{ attribute.value || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <span editable-text="attribute.description" e-name="description" e-form="rowform"e-required>
+          {{ attribute.description || 'empty' }}
+        </span>
+      </td>
+      <td style="white-space: nowrap">
+        <form editable-form method="post" name="rowform" onbeforesave="saveAttribute($data, attribute.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == attribute">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-danger" ng-click="removeAttribute($index)">del</button>
+        </div>  
+      </td>
+    </tr>
+  </table>
+<button class="btn btn-default" ng-click="addAttribute()">Add row</button>
+</div>-->

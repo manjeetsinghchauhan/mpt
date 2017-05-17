@@ -1,0 +1,34 @@
+<section id="pricing-tabs">
+			
+			<div id="tab-0" class="content-area search-campaign">
+				
+				<div class="form-group">
+					<label>Sales Category: </label>
+					<select class="height-25" id="sales-Category" name="sales-Category">
+						<option>Fashion</option>
+						<option>Arts</option>
+						<option>Books</option>
+						<option>Auto Mobiles</option>
+					</select>
+				</div>
+				<manage-pricing></manage-pricing>
+				<pricing-details></pricing-details>
+			</div>
+			
+		</section>
+		<script>
+		  $(function() {
+		    $("#pricing-tabs").tabs();
+			$( "#datepicker1,#datepicker2" ).datepicker();
+			$(".dropdown").hover(function(){
+				$(this).find(".dropdown-list").show();
+			},function(){
+				$(".dropdown-list").hide();
+			});
+			$( "#due-date-picker, #start-date-picker, #end-date-picker" ).datepicker({
+		      showOn: "button",
+		      buttonImage: "../images/calendar.gif",
+		      buttonImageOnly: true
+		    });
+		  });
+</script>

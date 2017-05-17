@@ -1,0 +1,139 @@
+<section>
+<div>
+<div ng-include="'plugins/dashboard/partials/dashboard-left-nav.html'"></div>
+ <div class="row" style="margin-left:10px;">
+	<div class="content-area search-campaign">
+	 <div class="row">
+	  <br>
+	   <div class="campaign-filters">
+		<div class="col-lg-10 col-md-9 col-sm-12 col-xs-12">
+		  	<div>
+		  	<!-- Future campaigns grid start here -->
+				<div class=" row table-responsive">
+				<table class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th class="width-70p">{{property.campaignsToGoLive}}</th>
+							<th class="width-20p">
+							<input type="checkbox" ng-change="getDelayedCampaigns(this)" ng-model="delayedCampaigns"/>
+							{{property.delayedCampaigns}}</th>
+						</tr>
+						<tr>
+							<th class="width-30p" ng-click="sort_by('campaignName');">{{property.campaignName}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('orderName');">{{property.orderName}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('flight');">{{property.flight}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('daysToLive');">{{property.daysToLive}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="p in futureCampaignsList | orderBy:predicate :reverse | startCampaignFrom:(futureCampaignsCurrentPage-1)*futureCampaignsEntryLimit | limitTo:futureCampaignsEntryLimit">
+							<td title="{{p.lineItemList.placeHolder}}">
+								<a href="#/campaigns/create-line-item/propID-{{p.proposalId}}-li-{{p.lineItemList.id}}">{{p.lineItemList.placeHolder}}</a>
+							</td>
+							<td title="{{p.orderName}}">
+								{{p.orderName}}
+							</td>
+							<td title="{{p.lineItemList.startDate}}">
+								{{p.lineItemList.startDate}} - {{p.lineItemList.endDate}} 
+							</td>
+							<td title="{{p.lineItemList.daysToGoLive}}">
+								{{p.lineItemList.daysToGoLive}}
+							</td>
+						</tr>
+					</tbody>
+    				<tr ng-show="futureCampaignsList.length==0"><td style="vertical-align:middle;" colspan="4"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+    				<tr ng-hide="futureCampaignsList.length > -1"><td style="vertical-align:middle;" colspan="4"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+				</table>
+
+			</div>
+			<div class="row" style="background-color: #e6e6e6; padding: 4px;">
+				<div pagination="" page="futureCampaignsCurrentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="futureCampaignsfilteredItems" items-per-page="futureCampaignsEntryLimit" class="pagination pagination-sm col-lg-12" style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;" next-text="&raquo;"></div>
+	
+			</div>
+			<!-- Future campaigns grid end here -->
+			<!-- Past campaigns grid start here -->
+			<div class=" row table-responsive">
+				<table class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th colspan="3" class="width-70p">{{property.campaignsCompletedInlast3days}}</th>
+						</tr>
+						<tr>
+							<th class="width-30p" ng-click="sort_by('campaignName');">{{property.campaignName}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('flight');">{{property.flight}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('impression');">{{property.impression}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="p in pastCampaignsList | orderBy:predicate :reverse | startCampaignFrom:(pastCampaignsCurrentPage-1)*pastCampaignsEntryLimit | limitTo:pastCampaignsEntryLimit">
+							<td title="{{p.lineItemList.placeHolder}}">
+								<a href="#/campaigns/create-line-item/propID-{{p.proposalId}}-li-{{p.lineItemList.id}}">{{p.lineItemList.placeHolder}}</a>
+							</td>
+							<td title="{{p.lineItemList.startDate}}">
+								{{p.lineItemList.startDate}} - {{p.lineItemList.endDate}} 
+							</td>
+							<td title="{{p.lineItemList.impression}}">
+								{{p.lineItemList.impression}}
+							</td>
+						</tr>
+					</tbody>
+    				<tr ng-show="pastCampaignsList.length ==0"><td style="vertical-align:middle;" colspan="3"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;No data found</td></tr>
+    				<tr ng-hide="pastCampaignsList.length > -1"><td style="vertical-align:middle;" colspan="3"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+				</table>
+
+			</div>
+			<div class="row" style="background-color: #e6e6e6; padding: 4px;">
+				<div pagination="" page="pastCampaignsCurrentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="pastCampaignsfilteredItems" items-per-page="pastCampaignsEntryLimit" class="pagination pagination-sm col-lg-12" style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;" next-text="&raquo;"></div>
+	
+			</div>
+			<!-- Past campaigns grid end here -->
+			<!-- Current campaigns grid start here -->
+			<div class=" row table-responsive">
+				<table class="table table-striped font-12 table-bordered table-hover table-condensed mpt-table">
+					<thead>
+						<tr>
+							<th colspan="3" class="width-70p">{{property.deliveringCampaigns}}</th>
+						</tr>
+						<tr>
+							<th class="width-30p" ng-click="sort_by('campaignName');">{{property.campaignName}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('flight');">{{property.flight}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+							<th class="width-20p" ng-click="sort_by('impression');">{{property.impression}}&nbsp;<i class="glyphicon glyphicon-sort"></i></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="p in currentCampaignsList | orderBy:predicate :reverse | startCampaignFrom:(currentCampaignsCurrentPage-1)*currentCampaignsEntryLimit | limitTo:currentCampaignsEntryLimit">
+							<td title="{{p.lineItemList.placeHolder}}">
+								<a href="#/campaigns/create-line-item/propID-{{p.proposalId}}-li-{{p.lineItemList.id}}">{{p.lineItemList.placeHolder}}</a>
+							</td>
+							<td title="{{p.lineItemList.startDate}}">
+								{{p.lineItemList.startDate}} - {{p.lineItemList.endDate}} 
+							</td>
+							<td title="{{p.lineItemList.impression}}">
+								{{p.lineItemList.impression}}
+							</td>
+							
+						</tr>
+					</tbody>
+    				<tr ng-show="currentCampaignsList.length ==0 "><td style="vertical-align:middle;" colspan="3"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;No data found</td></tr>
+    				<tr ng-hide="currentCampaignsList.length > -1"><td style="vertical-align:middle;" colspan="3"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+				</table>
+
+			</div>
+			<div class="row" style="background-color: #e6e6e6; padding: 4px;">
+				<div pagination="" page="currentCampaignsCurrentPage" max-size="5" on-select-page="setPage(page)" boundary-links="true" total-items="currentCampaignsfilteredItems" items-per-page="currentCampaignsfilteredItems" class="pagination pagination-sm col-lg-12" style="margin-top: 1px; margin-bottom: 0px;" previous-text="&laquo;" next-text="&raquo;"></div>
+			</div>
+			<!-- Current campaigns grid end here -->
+			<!-- Chart start here -->
+			<section>
+					<div class="campaigns" ng-app="google-chart-example">
+						<div google-chart chart="chart" style="{{chart.cssStyle}}" on-select="seriesSelected(selectedItem)"></div>
+					</div>
+				</section>
+				<!-- Chart end here -->
+			</div>	
+		</div>
+	   </div>
+	 </div>
+	</div>
+ </div>
+</section>

@@ -1,0 +1,151 @@
+<style>
+        /* code for animated blinking cursor */
+        .typed-cursor{
+            opacity: 1;
+            font-weight: 100;
+            -webkit-animation: blink 0.7s infinite;
+            -moz-animation: blink 0.7s infinite;
+            -ms-animation: blink 0.7s infinite;
+            -o-animation: blink 0.7s infinite;
+            animation: blink 0.7s infinite;
+        }
+        @-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-ms-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+</style>
+<div class="login_bg" style="padding: 150px 0 0 0;overflow: hidden;">
+<div class="row">
+	<div class="col-sm-12 navbar-header" align="center">
+	    	<span id="typedProjectName" class="tool-label">Media Planning Tool</span>
+	</div>
+</div>
+<div class="row">
+<div class="col-sm-2"></div>
+	<div class="col-sm-3" align="right"><hr style="border: 1px solid; color: orange;width: 70%; margin-left: 46%"/></div>
+	<div class="col-sm-2" style="padding-top: 10px" align="center"><span style="color:orange;font-weight: lighter; font-size: larger;"> powered By </span></div>
+	<div class="col-sm-3" align="left"><hr style="border: 1px solid; color: orange;width: 70%;margin-left: -18%"/></div>
+	<div class="col-sm-2"></div>
+</div>
+<div class="row">
+<div class="col-sm-2"></div>
+	<div class="col-sm-2" align="right"></div>
+	<div class="col-sm-4" style="padding-top: 10px" align="center"><span style="color: orange; font-weight: lighter; font-size: xx-large;"> Tavant Technologies Inc. </span></div>
+	<div class="col-sm-2" align="left"></div>
+	<div class="col-sm-2"></div>
+	<!-- <div style="border: 1px solid; color: orange;width: 10%"/> Powered By <hr style="border: 1px solid; color: orange;width: 10%"/> -->
+</div>
+<script>
+		$(function() {
+
+			$("#typedProjectName").typed({
+				strings : [ "Media Planning Tool" ],
+				typeSpeed : 30,
+				backDelay : 500,
+				loop : false,
+				contentType : 'html', // or text
+				// defaults to false for infinite loop
+				loopCount : false,
+				callback : function() {
+					foo();
+				},
+				resetCallback : function() {
+					newTyped();
+				}
+			});
+
+			$(".reset").click(function() {
+				$("#typedProjectName").typed('reset');
+			});
+
+		});
+
+		function newTyped() { /* A new typed object */
+		}
+
+		function foo() {
+			console.log("Callback");
+		}
+</script>
+
+	<div class="row">
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4 col-sm-offset-1" style="margin: 35px 0px 0px 4px;width: 33%">
+    	<!-- <span id="typed" style="white-space:pre;"></span> -->
+		<fieldset class="scheduler-border">
+	    	<legend class="scheduler-border">Login</legend>
+	    	<div id="login-box" class="login-box visible widget-box">
+	        	<div class="widget-body">
+	            	<div class="widget-main">
+	                	<div class="space-16"></div>
+	                	<form name="loginForm" class="form-horizontal" role="form">
+	                    	<div class="form-group">
+	                        	<label class="col-sm-3 control-label no-padding-right" for="email" style="color: white;font-weight: 400;"> Email </label>
+	                        	<div class="col-sm-7">
+	                           		<span class="block input-icon input-icon-right">
+	                                	<input type="text" class="form-control" placeholder="Email" name="username" ng-model="login.username" required style="width: 99%;"/>
+	                                	<!-- <i class="ace-icon fa fa-user"></i> -->
+	                            	</span>
+	                        	</div>
+	                    	</div>
+	                    	<div class="form-group">
+	                        	<label class="col-sm-3 control-label no-padding-right" for="password" style="color: white;font-weight: 400;"> Password </label>
+	                        	<div class="col-sm-7">
+	                           		<span class="block input-icon input-icon-right">
+	                                	<input type="password" class="form-control" placeholder="Password" ng-model="login.password" required style="width: 99%;"/>
+	                                <!-- <i class="ace-icon fa fa-lock"></i> -->
+		                            </span>
+	                        	</div>
+	                    	</div>
+	                    	<div class="space"></div>
+	                     	<div class="clearfix">
+	                        	<div class="row">
+	                         		<!-- <label class="col-sm-3 control-label no-padding-right"> </label> -->
+	                        		<div class="col-sm-6">
+	                        			
+	                        		</div>
+	                        		<div class="col-sm-4" style="padding: 2px 20px 0 0px;">
+	                                	<!-- <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid" style="margin-bottom: 15px;">
+	                                		<i class="ace-icon fa fa-key"></i>Reset
+	                                	</button> -->
+	                                	<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid" style="margin-bottom: 15px;">
+	                                		<i class="ace-icon fa fa-key"></i>Login
+	                                	</button>
+	                                	
+	                                </div>
+	                                <div class="col-sm-2">
+	                                </div>
+	                        	</div>
+	                    	</div>
+	                        <div class="space-4"></div>
+	                		<span class="lbl col-sm-3"> </span>
+	                	</form>
+	            	</div><!-- /widget-main -->
+	        	</div><!-- /widget-body -->
+	    	</div><!-- /login-box -->
+    	</fieldset>
+	</div><!-- /position-relative -->
+	<div class="col-sm-4"></div>
+</div>
+</div>
